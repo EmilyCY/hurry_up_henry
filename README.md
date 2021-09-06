@@ -1,2 +1,2 @@
 # hurry_up_henry
-Swiburne Innovation Project - Team JEM
+Swinburne Innovation Project - Team JEM
