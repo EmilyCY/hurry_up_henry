@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:async';
 
 void main() {
   runApp(MyApp());
@@ -46,17 +48,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  //probably the wrong place for these?
+  var gridWidth = 5;
+  var totalItems = 25;
+  var currentPos = 0;
+  var moveList = [1,5,-1,5,5,1,-5,1,-5,1,5,1,5]; //fake input
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  //  movement values
+  //        -5 (gridWidth)
+  //     -1    +1
+  //        +5
+
+  void _move() async{
+    for(var i = 0; i < moveList.length;i++) {
+      await Future.delayed(Duration(milliseconds: 250));
+      setState(() {
+        currentPos += moveList[i];
+      });
+    }
   }
 
   @override
@@ -73,42 +82,36 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: GridView.count(
+        crossAxisCount: 5,
+        crossAxisSpacing: 2,
+        children: List.generate(totalItems, (index) {
+          return Center(
+            child: Text( //this is kinda gross
+              currentPos == index
+
+                  ? 'yes\n' + '( ' + (index % gridWidth).toString() + ' , '
+                  + ((index - index % gridWidth) / gridWidth).toString() +
+                  ' ) '
+
+                  : '( ' + (index % gridWidth).toString() + ' , '
+                  + ((index - index % gridWidth) / gridWidth).toString() +
+                  ' ) ',
+
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headline5,
+
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+          );
+        }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _move,
+        tooltip: 'move',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        ), // This trailing comma makes auto-formatting nicer for build methods.
+      );
   }
 }
-//test
