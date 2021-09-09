@@ -9,6 +9,7 @@
 .buildlog/
 .history
 .svn/
+local.properties
 
 # IntelliJ related
 *.iml
@@ -69,6 +70,7 @@ unlinked_spec.ds
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 *.jks
+*.gradle/*
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
