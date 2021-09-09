@@ -6,6 +6,7 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
+  int totalGrid = 100;
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1 / 1,
@@ -15,14 +16,15 @@ class _GridState extends State<Grid> {
             crossAxisCount: 10,
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
-            children: List.generate(100, (index) {
+            children: List.generate(totalGrid, (index) {
               return Container(
+                child: Icon(
+                  Icons.face_outlined,
+                  size: 40,
+                  color: Colors.green[600],
+                ),
                 decoration: BoxDecoration(
-                    color: Colors.white38,
-                    //image: DecorationImage(
-                    //image: AssetImage('assets/car.jpg'),
-                    //fit: BoxFit.fitHeight,
-                    //),
+                    color: Colors.grey[200],
                     border: Border.all(
                       color: Colors.black,
                       width: 1.5,
