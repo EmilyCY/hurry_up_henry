@@ -4,17 +4,19 @@ import 'package:hurry_up_henry/board/board.dart';
 import 'package:hurry_up_henry/repository.dart';
 
 class BoardPage extends StatelessWidget {
-  const BoardPage({Key? key}) : super(key: key);
+  const BoardPage({
+    Key ? key
+  }): super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Complex List')),
       body: BlocProvider(
         create: (_) => BoardCubit(
-          repository: context.read<Repository>(),
+          repository: context.read < Repository > (),
         )..createBoard(),
         child: BoardView(),
-      )
+      ),
     );
   }
 }
@@ -23,7 +25,7 @@ class BoardPage extends StatelessWidget {
 class BoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<BoardCubit>().state;
+    final state = context.watch < BoardCubit > ().state;
     switch (state.status) {
       case ListStatus.failure:
         return const Center(child: Text('Oops something went wrong!'));
@@ -36,54 +38,83 @@ class BoardView extends StatelessWidget {
 }
 
 class ItemView extends StatelessWidget {
-  const ItemView({Key? key, required this.items}) : super(key: key);
+  const ItemView({
+    Key ? key,
+    required this.items
+  }): super(key: key);
 
-  final List<List<Item>> items;
+  final List < Item > items;
 
   @override
   Widget build(BuildContext context) {
-    return items.isEmpty
-        ? const Center(child: Text('no content'))
-        : ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              int x, y = 0;
-              x = (index / items.length).floor();
-              y = (index % items.length);
+    return items.isEmpty ?
+      const Center(child: Text('no content')): Column(
+        children: < Widget > [
+          ElevatedButton(
+            //style: style,
+            onPressed : (){ context.read < BoardCubit > ().moveItem();},
+            child: const Text('GO!'),
+          ),
+          AspectRatio(
+            aspectRatio: 1.0,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 2.0)
+                  ),
+                  child:
+                  GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 8,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      int x, y = 0;
+                      x = (index / items.length).floor();
+                      y = (index % items.length);
 
-              return ItemTile(
-                item: items[x][y],
-                onDeletePressed: (id) {
-                  context.read<BoardCubit>().deleteItem(id);
-                },
-              );
-            },
-            itemCount: items.length,
-          );
+                      return ItemTile(
+                        item: items[index],
+                        /*onDeletePressed: (id) {
+                          context.read < BoardCubit > ().deleteItem(id);
+                        },*/
+                      );
+                    },
+                    itemCount: items.length,
+                  )
+            )
+          )
+        ]
+      );
   }
 }
-
 class ItemTile extends StatelessWidget {
   const ItemTile({
-    Key? key,
+    Key ? key,
     required this.item,
-    required this.onDeletePressed,
-  }) : super(key: key);
+    //required this.onDeletePressed,
+  }): super(key: key);
 
   final Item item;
-  final ValueSetter<String> onDeletePressed;
+  //final ValueSetter < String > onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: ListTile(
-        /*leading: Text('#${item.id}'),*/
-        title: Text(item.row.toString()),
-/*        trailing: item.isDeleting
-            ? const CircularProgressIndicator()
-            : IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () => onDeletePressed(item.id),
-              ),*/
+      child: GridTile(
+        child: _buildGridItem(item)
+      ),
+    );
+  }
+
+  Widget _buildGridItem(item) {
+    return Container(
+      decoration: BoxDecoration(
+        color: item.isMoving ? Colors.red : Colors.amber,
+        border: Border.all(color: Colors.black, width: 0.5)
+      ),
+      child: Center(
+        child: Text(item.row.toString() + "," + item.col.toString()),
       ),
     );
   }
@@ -98,55 +129,56 @@ class BoardView extends StatelessWidget {
       appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          /*testList.removeLast();*/ })
-      ),
-      body: _buildGameBody()
-    );
-  }
+          /*testList.removeLast();*/
+})
+),
+body: _buildGameBody()
+);
+}
 
-  Widget _buildGameBody() {
-    return Column(
-      children: < Widget > [
-        AspectRatio(
-          aspectRatio: 1.0,
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-              margin: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 2.0)
+Widget _buildGameBody() {
+  return Column(
+    children: < Widget > [
+      AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2.0)
+              ),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
                 ),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                  ),
-                  itemBuilder: _buildGridItems,
-                  itemCount: 4 * 4,
-                ),
-          ),
+                itemBuilder: _buildGridItems,
+                itemCount: 4 * 4,
+              ),
         ),
-      ]);
-  }
+      ),
+    ]);
+}
 
-  Widget _buildGridItems(BuildContext context, int index) {
-    int gridStateLength = GRID_SIZE;
-    int x, y = 0;
-    x = (index / gridStateLength).floor();
-    y = (index % gridStateLength);
-    return  GridTile(
-        child: _buildGridItem(x, y)
-      );
-  }
+Widget _buildGridItems(BuildContext context, int index) {
+  int gridStateLength = GRID_SIZE;
+  int x, y = 0;
+  x = (index / gridStateLength).floor();
+  y = (index % gridStateLength);
+  return GridTile(
+    child: _buildGridItem(x, y)
+  );
+}
 
-  Widget _buildGridItem(int x, int y) {
-    return Container(
-          decoration: BoxDecoration(
-            color: this.gridState[x][y].isBusy?Colors.amber:Colors.red,
-            border: Border.all(color: Colors.black, width: 0.5)
-          ),
-          child: Center(
-            child: Text(this.gridState[x][y].row.toString()+","+this.gridState[x][y].col.toString()),
-          ),
-        );
-  }
+Widget _buildGridItem(int x, int y) {
+  return Container(
+    decoration: BoxDecoration(
+      color: this.gridState[x][y].isBusy ? Colors.amber : Colors.red,
+      border: Border.all(color: Colors.black, width: 0.5)
+    ),
+    child: Center(
+      child: Text(this.gridState[x][y].row.toString() + "," + this.gridState[x][y].col.toString()),
+    ),
+  );
+}
 }
 */

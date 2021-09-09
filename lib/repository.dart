@@ -8,22 +8,21 @@ class Repository {
 
   int _randomRange(int min, int max) => min + _random.nextInt(max - min);
 
-  Future < List < List < Item >>> createItems() async {
+  Future <List<Item>> createItems() async {
     await Future < void > .delayed(Duration(seconds: _randomRange(1, 5)));
 
     //generate a 8x8 grid
     return _generateGrid(8);
   }
 
-  List < List < Item >> _generateGrid(int dimension) {
-    List < List < Item >> gridState = [];
+  List <Item> _generateGrid(int dimension) {
+    List <Item> gridState = [];
 
 
-    gridState = new List.generate(dimension, (i) =>
-      new List.generate(dimension, (j) => new Item(row: i, col: j)));
+     gridState = new List.generate(dimension*dimension, (int i) =>
+         new Item(row: (i/dimension).floor(), col: i%dimension));
 
-    //    gridState[0][0].isMoving = true;
-    print("GENERATE GRID!");
+    print("GENERATE GRID!"+gridState.toString());
     return gridState;
   }
 
