@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hurry_up_henry/main.dart';
+import 'package:provider/provider.dart';
+import 'package:hurry_up_henry/Providers/controller.dart';
 
 class Grid extends StatefulWidget {
   const Grid({Key? key}) : super(key: key);
@@ -6,7 +9,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  int totalGrid = 100;
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1 / 1,
@@ -16,13 +18,15 @@ class _GridState extends State<Grid> {
             crossAxisCount: 10,
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
-            children: List.generate(totalGrid, (index) {
+            children: List.generate(GRID_NUM, (index) {
               return Container(
-                child: Icon(
-                  Icons.face_outlined,
-                  size: 40,
-                  color: Colors.green[600],
-                ),
+                child: index == context.watch<Controller>().position
+                    ? Icon(
+                        Icons.face_outlined,
+                        size: 40,
+                        color: Colors.green[600],
+                      )
+                    : null,
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     border: Border.all(
