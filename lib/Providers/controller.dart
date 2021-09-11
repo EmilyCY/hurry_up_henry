@@ -8,7 +8,7 @@ class Controller with ChangeNotifier {
   int currentPosition = 0;
   static Random randomNum = new Random();
   int startPosition = 0;
-  List<Move> playerMoves = [];
+  List<Move> moves = [];
   List<int> leftBoundary = [];
   List<int> rightBoundary = [];
   List<int> upperBoundary = [];
@@ -16,7 +16,7 @@ class Controller with ChangeNotifier {
 
   Controller() {
     this.startPosition = randomNum.nextInt(99);
-    this.playerMoves = [];
+    this.moves = [];
     this.currentPosition = this.startPosition;
     this.leftBoundary = getLeftBoundary();
     this.upperBoundary = getUpperBoundary();
@@ -24,24 +24,14 @@ class Controller with ChangeNotifier {
     this.lowerBoundary = getLowerBoundary();
   }
 
-  List<Move> get moves {
-    return this.playerMoves;
-  }
-
-  int get position {
-    return this.currentPosition;
-  }
-
-  void getCurrentPosition() {
-    this.playerMoves.forEach((move) {     
-      Future.delayed(Duration(milliseconds: 1000), (){
-        this.currentPosition += move.position;
-        notifyListeners();
-
-      });
-      
-    });
-    this.playerMoves = [];
+  void getCurrentPosition() async {
+    for (Move move in moves) {
+      await Future.delayed(Duration(milliseconds: 500));
+      this.currentPosition += move.positionChange;
+      notifyListeners();
+      print(currentPosition);
+    }
+    this.moves = [];
   }
 
   void run() {}
@@ -49,7 +39,7 @@ class Controller with ChangeNotifier {
   void reStart() {
     this.startPosition = randomNum.nextInt(99);
     this.currentPosition = this.startPosition;
-    this.playerMoves = [];
+    this.moves = [];
   }
 
   void makeMove(String direction) {

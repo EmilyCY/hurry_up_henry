@@ -41,7 +41,4 @@ class Move {
     }
   }
 
-  int get position {
-    return this.positionChange;
-  }
 }

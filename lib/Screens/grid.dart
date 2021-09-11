@@ -20,11 +20,13 @@ class _GridState extends State<Grid> {
             mainAxisSpacing: 0,
             children: List.generate(GRID_NUM, (index) {
               return Container(
-                child: index == context.watch<Controller>().position
-                    ? Icon(
+                child: index == context.watch<Controller>().currentPosition
+                    ? (Icon(
                         Icons.face_outlined,
                         size: 40,
                         color: Colors.green[600],
+                        )
+                        //print("in return container");
                       )
                     : null,
                 decoration: BoxDecoration(
