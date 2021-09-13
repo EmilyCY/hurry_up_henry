@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: 103320303@student.swin.edu.au
+  description: This is a an API definition for the Hurry Up Henry backend integration
+  title: Hurry up Henry
+  version: 1.0.0
+servers:
+- url: https://127.0.0.1:8080/v1
+- url: http://127.0.0.1:8080/v1
+tags:
+- description: Everything about interacting to Rasberry Pi backend
+  name: picar
+paths:
+  /car/status:
+    get:
+      description: Gets the status of the car.
+      operationId: get_car_status
+      responses:
+        "200":
+          content: {}
+          description: Status response OK
+        "405":
+          content: {}
+          description: Invalid input
+      summary: Get the status of the car.
+      tags:
+      - picar
+      x-openapi-router-controller: pypicar.controllers.picar_controller
+components:
+  schemas: {}
+x-original-swagger-version: "2.0"

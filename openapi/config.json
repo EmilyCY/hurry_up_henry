@@ -1,0 +1,10 @@
+
+
+{
+  "featureCORS": "true",
+  "packageName": "pypicar",
+  "packageVersion": "0.0.1",
+  "pythonSrcRoot": "src/",
+  "serverPort": 8088,
+  "usePythonSrcRootInImports": false
+}

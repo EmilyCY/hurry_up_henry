@@ -5,7 +5,7 @@ info:
   title: "Hurry up Henry"
   contact:
     email: "103320303@student.swin.edu.au"
-host: "127.0.0.1:8088"
+host: "127.0.0.1:8080"
 basePath: "/v1"
 tags:
 - name: "picar"
