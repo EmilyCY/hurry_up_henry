@@ -1,0 +1,33 @@
+swagger: "2.0"
+info:
+  description: "This is a an API definition for the Hurry Up Henry backend integration"
+  version: "1.0.0"
+  title: "Hurry up Henry"
+  contact:
+    email: "103320303@student.swin.edu.au"
+host: "127.0.0.1:8088"
+basePath: "/v1"
+tags:
+- name: "picar"
+  description: "Everything about interacting to Rasberry Pi backend"
+schemes:
+- "https"
+- "http"
+paths:
+  /car/status:
+    get:
+      tags:
+      - "picar"
+      summary: "Get the status of the car."
+      description: "Gets the status of the car."
+      operationId: "getCarStatus"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Status response OK"
+        "405":
+          description: "Invalid input"
+
