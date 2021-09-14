@@ -1,0 +1,43 @@
+MVP v1
+
+MVP. COMP-1. Front end 
+
+R1. FE will call the be when it gets initialised. Different car colours based on state.
+
+R2. FE up,down,righ,left arrows - control
+
+R3. FE will have a list of chained commands to get executed added by tapping the control.
+
+R4. FE will have a RUN button that will execute the commands from the command control.
+
+R5. CAR will move based on the command list after the play button gets pushed.
+
+R6. CAR will move one square at a time.
+
+R7. After each car move, the backend API should be invoked. See. COMP-2. API-2. No except scenarios covered.
+
+R8. The application logic must be separated by the widget (view).
+
+------------------------------------
+
+MVP. COMP-2. API part.
+
+R1. API1. The fe must call backend to check the car state. This will get called when the fe gets initialised.
+
+R2. API2. Move the car, direction (left, right, up, down). --- response - OK, NOK, etc. --synchronous 
+
+ 
+-----------------------------------
+
+ 
+MVP. COMP-2. Backend server.
+
+R1. The backend should expose the REST API from COMP2.API.
+
+R2. The backend should respond to the API requests as defined in R1. API1.
+
+R3. Backend should have the framework (design) in place to integrate to COMP-3.
+
+ 
+
+MVP V2 
