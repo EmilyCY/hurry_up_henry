@@ -15,19 +15,19 @@ To run the server, please execute the following from the root directory:
 
 ```
 pip3 install -r requirements.txt
-python3 -m pypicar
+python3 -m api
 ```
 
 and open your browser to here:
 
 ```
-http://localhost:8088/v1/ui/
+http://localhost:8088/ui/
 ```
 
 Your OpenAPI definition lives here:
 
 ```
-http://localhost:8088/v1/openapi.json
+http://localhost:8088/openapi.json
 ```
 
 To launch the integration tests, use pytest:

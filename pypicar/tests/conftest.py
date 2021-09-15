@@ -13,7 +13,7 @@ def client(loop, aiohttp_client):
         }
     specification_dir = os.path.join(os.path.dirname(__file__), '..',
                                      "src\",
-                                     'pypicar',
+                                     'api',
                                      'openapi')
     app = connexion.AioHttpApp(__name__, specification_dir=specification_dir,
                                options=options)

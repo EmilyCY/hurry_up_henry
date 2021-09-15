@@ -3,7 +3,7 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "pypicar"
+NAME = "api"
 VERSION = "0.0.1"
 
 # To install the library, run the following
@@ -32,7 +32,7 @@ setup(
     package_data={'': ['src\/openapi/openapi.yaml']},
     include_package_data=True,
     entry_points={
-        'console_scripts': ['pypicar=pypicar.__main__:main']},
+        'console_scripts': ['api=api.__main__:main']},
     long_description="""\
     This is a an API definition for the Hurry Up Henry backend integration
     """
