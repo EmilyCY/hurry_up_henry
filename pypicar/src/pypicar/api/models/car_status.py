@@ -4,8 +4,8 @@ from datetime import date, datetime
 
 from typing import List, Dict, Type
 
-from api.models.base_model_ import Model
-from api import util
+from pypicar.api.models.base_model_ import Model
+from pypicar.api import util
 
 
 class CarStatus(Model):

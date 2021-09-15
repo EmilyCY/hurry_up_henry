@@ -33,7 +33,7 @@ paths:
       summary: Drives the car forward
       tags:
       - picar
-      x-openapi-router-controller: api.controllers.picar_controller
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
   /car/reverse:
     post:
       description: Drives the car backwards
@@ -54,7 +54,7 @@ paths:
       summary: Drives the car backward
       tags:
       - picar
-      x-openapi-router-controller: api.controllers.picar_controller
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
   /car/rotate:
     post:
       description: Rotates the car at an angle
@@ -81,7 +81,7 @@ paths:
       summary: Rotates the car at an angle
       tags:
       - picar
-      x-openapi-router-controller: api.controllers.picar_controller
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
       x-codegen-request-body-name: body
   /car/status:
     get:
@@ -107,7 +107,7 @@ paths:
       summary: Get the status of the car.
       tags:
       - picar
-      x-openapi-router-controller: api.controllers.picar_controller
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
 components:
   responses:
     UnauthorisedError:

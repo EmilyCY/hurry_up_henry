@@ -1,9 +1,9 @@
 from typing import List, Dict
 from aiohttp import web
 
-from api.models.car_status import CarStatus
-from api.models.rotate import Rotate
-from api import util
+from pypicar.api.models.car_status import CarStatus
+from pypicar.api.models.rotate import Rotate
+from pypicar.api import util
 
 
 async def drive_car(request: web.Request, ) -> web.Response:
@@ -23,7 +23,8 @@ async def get_car_status(request: web.Request, ) -> web.Response:
 
 
     """
-    return web.Response(status=200)
+    st_mock =  CarStatus(name="picarname", status="READY")
+    return web.Response(body=st_mock.to_str(), status=200)
 
 
 async def reverse_car(request: web.Request, ) -> web.Response:

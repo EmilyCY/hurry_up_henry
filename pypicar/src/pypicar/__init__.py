@@ -1,7 +1,7 @@
 import os
 import connexion
 import aiohttp_cors
-
+import logging
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
@@ -9,11 +9,12 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 def main():
 
     options = {
-        "swagger_ui": True
+        "swagger_ui": False
         }
+
     specification_dir = os.path.join(os.path.dirname(__file__), 'api/openapi')
 
-
+    print("Hello world!");
     app = connexion.AioHttpApp(__name__, only_one_api=True, specification_dir=specification_dir, options=options)
     app.add_api('openapi.yaml',
                 arguments={'title': 'Hurry up Henry'},
@@ -29,6 +30,8 @@ def main():
         )
     })
 
+    logging.basicConfig(level=logging.DEBUG)
+    
     # Register all routers for CORS.
     for route in list(app.app.router.routes()):
         cors.add(route)
