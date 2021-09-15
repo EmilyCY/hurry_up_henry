@@ -38,3 +38,14 @@ To launch the integration tests, use pytest:
 ```
 pytest -p no:warnings
 ```
+
+Run it
+```
+pypicar
+```
+
+Test it
+```
+curl  'http://localhost:8088/car/status'   -H 'accept: application/json'   -H 'X-API-KEY: hurruphenry'
+{'name': 'picarname', 'status': 'READY'}
+```
