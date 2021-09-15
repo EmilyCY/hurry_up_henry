@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 def main():
 
     options = {
-        "swagger_ui": False
+        "swagger_ui": True
         }
 
     specification_dir = os.path.join(os.path.dirname(__file__), 'api/openapi')
