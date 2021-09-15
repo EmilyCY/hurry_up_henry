@@ -28,12 +28,6 @@ Install dependencies
 pip3 install . --use-feature=in-tree-build
 ```
 
-and open your browser to here:
-
-```
-http://localhost:8088/ui/
-```
-
 To launch the integration tests, use pytest:
 ```
 pytest -p no:warnings
@@ -48,4 +42,11 @@ Test it
 ```
 curl  'http://localhost:8088/car/status'   -H 'accept: application/json'   -H 'X-API-KEY: hurruphenry'
 {'name': 'picarname', 'status': 'READY'}
+```
+
+While you run it, this is how you can access the documentation/test 
+and open your browser to here:
+
+```
+http://localhost:8088/ui/
 ```
