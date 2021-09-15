@@ -14,7 +14,6 @@ def main():
 
     specification_dir = os.path.join(os.path.dirname(__file__), 'api/openapi')
 
-    print("Hello world!");
     app = connexion.AioHttpApp(__name__, only_one_api=True, specification_dir=specification_dir, options=options)
     app.add_api('openapi.yaml',
                 arguments={'title': 'Hurry up Henry'},
