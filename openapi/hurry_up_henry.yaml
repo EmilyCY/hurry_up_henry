@@ -119,7 +119,8 @@ components:
     ApiKeyAuth:        
       type: apiKey
       in: header       
-      name: X-API-KEY  
+      name: X-API-KEY 
+      x-apikeyInfoFunc:  pypicar.api.security.apikey_auth
 
 #Apply the API key globally to all operations
 security:

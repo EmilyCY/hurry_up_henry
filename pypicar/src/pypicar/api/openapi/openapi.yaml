@@ -158,4 +158,4 @@ components:
       in: header
       name: X-API-KEY
       type: apiKey
-      x-apikeyInfoFunc: api.controllers.security_controller_.info_from_ApiKeyAuth
+      x-apikeyInfoFunc: pypicar.api.security.apikey_auth

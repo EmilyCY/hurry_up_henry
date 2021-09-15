@@ -8,13 +8,18 @@ from api.models.car_status import CarStatus
 from api.models.rotate import Rotate
 
 
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
+
 async def test_drive_car(client):
     """Test case for drive_car
 
     Drives the car forward
     """
     headers = { 
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'hurruphenry'
     }
     response = await client.request(
         method='POST',
@@ -30,8 +35,7 @@ async def test_get_car_status(client):
     Get the status of the car.
     """
     headers = { 
-        'Accept': 'application/json',
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'hurruphenry'
     }
     response = await client.request(
         method='GET',
@@ -47,7 +51,7 @@ async def test_reverse_car(client):
     Drives the car backward
     """
     headers = { 
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'hurruphenry'
     }
     response = await client.request(
         method='POST',
@@ -63,12 +67,13 @@ async def test_rotate_car(client):
     Rotates the car at an angle
     """
     body = {
-  "angle" : 90
-}
-    headers = { 
-        'Content-Type': 'application/json',
-        'ApiKeyAuth': 'special-key',
+      "angle" : 90
     }
+
+    headers = { 
+        'X-API-KEY': 'hurruphenry'
+    }
+
     response = await client.request(
         method='POST',
         path='/car/rotate',

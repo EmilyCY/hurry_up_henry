@@ -1,22 +1,22 @@
 # coding: utf-8
 
 import sys
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 
-NAME = "api"
+NAME = "pypicar"
 VERSION = "0.0.1"
 
-# To install the library, run the following
-#
-# python setup.py install
-#
-# prerequisite: setuptools
-# http://pypi.python.org/pypi/setuptools
-
 REQUIRES = [
-    "connexion==2.6.0",
-    "swagger-ui-bundle==0.0.6",
-    "aiohttp_jinja2==1.2.0",
+    "connexion",
+    "swagger-ui-bundle",
+    "aiohttp_jinja2",
+    "aiohttp_cors",
+    "wheel",
+
+    "pytest",
+    "pytest-cov",
+    "pytest-randomly",
+    "pytest-aiohttp>=0.3.0"
 ]
 
 setup(
@@ -27,14 +27,14 @@ setup(
     url="",
     keywords=["OpenAPI", "Hurry up Henry"],
     install_requires=REQUIRES,
-    packages=find_packages("src\"),
-    package_dir={"": "src\"},
-    package_data={'': ['src\/openapi/openapi.yaml']},
+    package_dir={"": "src"},
+    package_data={'': ['api/openapi/openapi.yaml']},
+    packages=find_namespace_packages(where='src'),
     include_package_data=True,
     entry_points={
-        'console_scripts': ['api=api.__main__:main']},
+        'console_scripts': ['pypicar=pypicar:main']},
     long_description="""\
-    This is a an API definition for the Hurry Up Henry backend integration
+    Hurry Up Henry backend integration
     """
 )
 

@@ -2,12 +2,19 @@ import os
 import connexion
 import aiohttp_cors
 
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 def main():
+
     options = {
         "swagger_ui": True
         }
-    specification_dir = os.path.join(os.path.dirname(__file__), 'openapi')
-    app = connexion.AioHttpApp(__name__, specification_dir=specification_dir, options=options)
+    specification_dir = os.path.join(os.path.dirname(__file__), 'api/openapi')
+
+
+    app = connexion.AioHttpApp(__name__, only_one_api=True, specification_dir=specification_dir, options=options)
     app.add_api('openapi.yaml',
                 arguments={'title': 'Hurry up Henry'},
                 pythonic_params=True,

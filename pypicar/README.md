@@ -1,7 +1,7 @@
 # PYthon PI car backend server for Hurry up Henry
 
 ## Overview
-
+@todo I'll draw some diagram here
 
 ## Requirements
 Python 3.9
@@ -25,7 +25,7 @@ source venv\bin\activate
 
 Install dependencies
 ```
-pip3 install .
+pip3 install . --use-feature=in-tree-build
 ```
 
 and open your browser to here:
@@ -34,13 +34,7 @@ and open your browser to here:
 http://localhost:8088/ui/
 ```
 
-Your OpenAPI definition lives here:
-
-```
-http://localhost:8088/openapi.json
-```
-
 To launch the integration tests, use pytest:
 ```
-pytest
+pytest -p no:warnings
 ```

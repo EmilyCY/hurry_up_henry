@@ -2,7 +2,7 @@
   "featureCORS": "true",
   "packageName": "api",
   "packageVersion": "0.0.1",
-  "pythonSrcRoot": "src",
+  "pythonSrcRoot": "src/pypicar",
   "serverPort": 8088,
-  "usePythonSrcRootInImports": false
+  "usePythonSrcRootInImports": true
 }
