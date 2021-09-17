@@ -3,9 +3,17 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import '../main.dart';
 import 'move.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+//todo: move elsewhere
+AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+final winSFXpath = "assets/win.wav";
+final loseSFXpath = "assets/lose.wav";
+final moveSFXpath = "assets/move.wav";
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
+  int goalPosition = 0;
   static Random randomNum = new Random();
   int startPosition = 0;
   List<Move> moves = [];
@@ -15,9 +23,10 @@ class Controller with ChangeNotifier {
   List<int> lowerBoundary = [];
 
   Controller() {
-    this.startPosition = randomNum.nextInt(99);
-    this.moves = [];
-    this.currentPosition = this.startPosition;
+    //this.startPosition = randomNum.nextInt(99);
+    //this.currentPosition = this.startPosition;
+    currentPosition = randomNum.nextInt(99);
+    newGame();
     this.leftBoundary = getLeftBoundary();
     this.upperBoundary = getUpperBoundary();
     this.rightBoundary = getRightBoundary();
@@ -27,22 +36,54 @@ class Controller with ChangeNotifier {
   void getCurrentPosition() async {
     for (Move move in moves) {
       await Future.delayed(Duration(milliseconds: 500));
-      this.currentPosition += move.positionChange;
+
+      if (!isOutOfBounds(this.currentPosition, move.direction)) {
+        this.currentPosition += move.positionChange;
+        player.play(moveSFXpath);
+      } else {
+        lose();
+        break;
+      }
+
       notifyListeners();
       print(currentPosition);
     }
     this.moves = [];
+    winCondition();
+    //fail state?
+  }
+
+  void winCondition() {
+    currentPosition == goalPosition ? win() : lose();
+  }
+
+  void win() {
+    player.play(winSFXpath);
+    newGame();
+  }
+
+  void lose() {
+    player.play(loseSFXpath);
+    print("lose");
+    moves = [];
+    notifyListeners();
   }
 
   void run() {}
 
-  void reStart() {
-    this.startPosition = randomNum.nextInt(99);
-    this.currentPosition = this.startPosition;
-    this.moves = [];
+  void newGoal() {
+    // generate random goal pos that is at least 2 sq away from current pos
+    goalPosition = randomNum.nextInt(99);
+    //List<int> noGoalZone = [];
+  }
+
+  void newGame() {
+    newGoal();
+    moves = [];
   }
 
   void makeMove(String direction) {
+    /*
     List<int> boundary = [];
 
     switch (direction) {
@@ -72,6 +113,10 @@ class Controller with ChangeNotifier {
       this.moves.add(move);
       notifyListeners();
     }
+    */
+    Move move = new Move(direction);
+    this.moves.add(move);
+    notifyListeners();
   }
 
   List<int> getLeftBoundary() {
@@ -101,4 +146,38 @@ class Controller with ChangeNotifier {
     }
     return this.lowerBoundary;
   }
+}
+
+bool isOutOfBounds(int currentPosition, String direction) {
+  switch (direction) {
+    case "left":
+      {
+        if (currentPosition % sqrt(GRID_NUM) != 0) {
+          return false;
+        }
+      }
+      break;
+    case "right":
+      {
+        if (currentPosition % sqrt(GRID_NUM) != sqrt(GRID_NUM) - 1) {
+          return false;
+        }
+      }
+      break;
+    case "up":
+      {
+        if (currentPosition - sqrt(GRID_NUM) >= 0) {
+          return false;
+        }
+      }
+      break;
+    case "down":
+      {
+        if (currentPosition + sqrt(GRID_NUM) <= GRID_NUM) {
+          return false;
+        }
+      }
+      break;
+  }
+  return true;
 }
