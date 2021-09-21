@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: 103320303@student.swin.edu.au
+  description: This is a an API definition for the Hurry Up Henry backend integration
+  title: Hurry up Henry
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:8080
+security:
+- ApiKeyAuth: []
+tags:
+- description: Everything about interacting to Rasberry Pi backend
+  name: picar
+paths:
+  /car/drive:
+    post:
+      description: Drives the car forward
+      operationId: drive_car
+      responses:
+        "200":
+          description: Command sent to controller successfully
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "405":
+          description: Invalid input
+      summary: Drives the car forward
+      tags:
+      - picar
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
+  /car/reverse:
+    post:
+      description: Drives the car backwards
+      operationId: reverse_car
+      responses:
+        "200":
+          description: Command sent to controller successfully
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "405":
+          description: Invalid input
+      summary: Drives the car backward
+      tags:
+      - picar
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
+  /car/rotate:
+    post:
+      description: Rotates the car at an angle
+      operationId: rotate_car
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rotate'
+        x-body-name: body
+      responses:
+        "200":
+          description: Command sent to controller successfully
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "405":
+          description: Invalid input
+      summary: Rotates the car at an angle
+      tags:
+      - picar
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
+      x-codegen-request-body-name: body
+  /car/status:
+    get:
+      description: Gets the status of the car.
+      operationId: get_car_status
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarStatus'
+          description: Status response OK
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "405":
+          description: Invalid input
+      summary: Get the status of the car.
+      tags:
+      - picar
+      x-openapi-router-controller: pypicar.api.controllers.picar_controller
+components:
+  responses:
+    UnauthorisedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          explode: false
+          schema:
+            type: string
+          style: simple
+  schemas:
+    CarStatus:
+      example:
+        name: name
+        status: READY
+      properties:
+        name:
+          description: Name of the car
+          title: name
+          type: string
+        status:
+          description: The car status
+          enum:
+          - READY
+          - BUSY
+          title: status
+          type: string
+      required:
+      - name
+      title: CarStatus
+      type: object
+    Rotate:
+      example:
+        angle: 90
+      properties:
+        angle:
+          description: The rotation angle, must be multiple of 10 (10, 360 range)
+          example: 90
+          maximum: 360
+          minimum: 10
+          multipleOf: 10
+          type: integer
+      required:
+      - angle
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-KEY
+      type: apiKey
+      x-apikeyInfoFunc: pypicar.api.security.apikey_auth

@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  description: "This is a an API definition for the Hurry Up Henry backend integration"
+  version: "1.0.0"
+  title: "Hurry up Henry"
+  contact:
+    email: "103320303@student.swin.edu.au"
+servers: 
+  - url: "http://127.0.0.1:8080"
+tags:
+- name: "picar"
+  description: "Everything about interacting to Rasberry Pi backend"
+paths:
+  /car/status:
+    get:
+      tags:
+      - "picar"
+      summary: "Get the status of the car."
+      description: "Gets the status of the car."
+      operationId: "getCarStatus"
+      responses:
+        "200":
+          description: "Status response OK"
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/CarStatus"
+        "401":
+           $ref: "#/components/responses/UnauthorisedError"
+        "405":
+           description: "Invalid input"
+  /car/rotate:
+    post:
+      tags:
+      - "picar"
+      summary: "Rotates the car at an angle"
+      description: "Rotates the car at an angle"
+      operationId: "rotateCar"
+      responses:
+        "200":
+          description: "Command sent to controller successfully"
+        '401':
+           $ref: "#/components/responses/UnauthorisedError"
+        "405":
+          description: "Invalid input"
+      requestBody: 
+        content:
+          "application/json":
+            schema:
+              $ref: '#/components/schemas/Rotate'
+        
+  /car/drive:
+    post:
+      tags:
+      - "picar"
+      summary: "Drives the car forward"
+      description: "Drives the car forward"
+      operationId: "driveCar"
+      responses:
+        "200":
+          description: "Command sent to controller successfully"
+        '401':
+           $ref: "#/components/responses/UnauthorisedError"
+        "405":
+          description: "Invalid input"
+  /car/reverse:
+    post:
+      tags:
+      - "picar"
+      summary: "Drives the car backward"
+      description: "Drives the car backwards"
+      operationId: "reverseCar"
+      responses:
+        "200":
+          description: "Command sent to controller successfully"
+        '401':
+           $ref: "#/components/responses/UnauthorisedError"
+        "405":
+          description: "Invalid input"
+
+components:
+  schemas:
+    CarStatus:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: "string"
+          description: "Name of the car"
+        status:
+          type: "string"
+          description: "The car status"
+          enum:
+            - READY
+            - BUSY
+    Rotate:
+      type: object
+      required:
+        - angle
+      properties:
+        angle:
+          type: integer
+          description: "The rotation angle, must be multiple of 10 (10, 360 range)"
+          example: 90
+          multipleOf: 10
+          minimum: 10
+          maximum: 360
+
+  responses:
+    UnauthorisedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+
+  securitySchemes:
+    ApiKeyAuth:        
+      type: apiKey
+      in: header       
+      name: X-API-KEY 
+      x-apikeyInfoFunc:  pypicar.api.security.apikey_auth
+
+#Apply the API key globally to all operations
+security:
+  - ApiKeyAuth: []     # use the same name as under securitySchemes
+    
