@@ -14,16 +14,6 @@ class Controller with ChangeNotifier {
   List<int> upperBoundary = [];
   List<int> lowerBoundary = [];
 
-  Controller() {
-    this.startPosition = randomNum.nextInt(99);
-    this.moves = [];
-    this.currentPosition = this.startPosition;
-    this.leftBoundary = getLeftBoundary();
-    this.upperBoundary = getUpperBoundary();
-    this.rightBoundary = getRightBoundary();
-    this.lowerBoundary = getLowerBoundary();
-  }
-
   void getCurrentPosition() async {
     for (Move move in moves) {
       await Future.delayed(Duration(milliseconds: 500));
@@ -34,7 +24,10 @@ class Controller with ChangeNotifier {
     this.moves = [];
   }
 
-  void run() {}
+  void deleteMove() {
+    moves.removeLast();
+    notifyListeners();
+  }
 
   void reStart() {
     this.startPosition = randomNum.nextInt(99);

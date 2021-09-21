@@ -22,10 +22,15 @@ class CircleButton extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: () {
-          if (this.action != "run") {
-            context.read<Controller>().makeMove(this.action);
-          } else {
+          if (action == "delete") {
+            context.read<Controller>().deleteMove();
+          } else if (action == "run") {
             context.read<Controller>().getCurrentPosition();
+          } else if (action == "carSwitch") {
+            // placeholder for API
+            print(" car switch is on");
+          } else {
+            context.read<Controller>().makeMove(action);
           }
         },
         child: Icon(this.icon, size: this.iconSize),
