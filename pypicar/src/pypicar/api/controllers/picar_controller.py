@@ -26,7 +26,6 @@ async def get_car_status(request: web.Request, ) -> web.Response:
     st_mock =  CarStatus(name="picarname", status="READY")
     return web.Response(body=st_mock.to_str(), status=200)
 
-
 async def reverse_car(request: web.Request, ) -> web.Response:
     """Drives the car backward
 
