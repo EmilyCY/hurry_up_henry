@@ -14,7 +14,7 @@ async def test_drive_car(client):
     Drives the car forward
     """
     headers = { 
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='POST',
@@ -31,7 +31,7 @@ async def test_get_car_status(client):
     """
     headers = { 
         'Accept': 'application/json',
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='GET',
@@ -47,7 +47,7 @@ async def test_reverse_car(client):
     Drives the car backward
     """
     headers = { 
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='POST',
@@ -63,11 +63,12 @@ async def test_rotate_car(client):
     Rotates the car at an angle
     """
     body = {
-  "clockwise" : true
-}
+      "clockwise" : True
+    }
+
     headers = { 
         'Content-Type': 'application/json',
-        'ApiKeyAuth': 'special-key',
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='POST',
