@@ -2,7 +2,7 @@ import connexion;
 from connexion.exceptions import OAuthProblem
 
 TOKEN_DB = {
-    'hurruphenry': {
+    'special-key': {
         'uid': 100
     }
 }
