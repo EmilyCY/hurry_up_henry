@@ -3,10 +3,11 @@ import 'package:hurry_up_henry/Providers/controller.dart';
 import 'package:provider/provider.dart';
 
 class CircleButton extends StatelessWidget {
+  
   final Color color;
   final double iconSize;
   final IconData icon;
-  final String action;
+  final ActionType action;
 
   const CircleButton({
     Key? key,
@@ -22,10 +23,15 @@ class CircleButton extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: () {
-          if (this.action != "run") {
-            context.read<Controller>().makeMove(this.action);
-          } else {
+          if (action == ActionType.Delete) {
+            context.read<Controller>().deleteMove();
+          } else if (action == ActionType.Run) {
             context.read<Controller>().getCurrentPosition();
+          } else if (action == ActionType.CarSwitch) {
+            // placeholder for API
+            print(" car switch is on");
+          } else {
+            context.read<Controller>().makeMove(action);
           }
         },
         child: Icon(this.icon, size: this.iconSize),
