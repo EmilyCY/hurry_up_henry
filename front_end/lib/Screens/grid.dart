@@ -25,10 +25,16 @@ class _GridState extends State<Grid> {
                         Icons.face_outlined,
                         size: 40,
                         color: Colors.green[600],
-                        )
-                        //print("in return container");
                       )
-                    : null,
+                        //print("in return container");
+                        )
+                    : index == context.watch<Controller>().goalPosition
+                        ? (Icon(
+                            Icons.star,
+                            size: 40, //needs scaling?
+                            color: Colors.yellow[600],
+                          ))
+                        : null,
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     border: Border.all(
