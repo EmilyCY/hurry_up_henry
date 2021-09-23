@@ -9,8 +9,33 @@ class ControlPanel extends StatefulWidget {
   _ControlPanelState createState() => _ControlPanelState();
 }
 
+enum Button {
+  Up,
+  Left,
+  Run,
+  Right,
+  Down,
+  Delete,
+  CarSwitch
+}
+
+class ButtonOffsets {
+  static int getValue(Button button) {
+    switch (button) {
+      case Button.Up:   return 1;
+      case Button.Left: return 4;
+      case Button.Run:  return 3;
+      case Button.Right: return 6;
+      case Button.Down: return 9;
+      case Button.Delete: return 7;
+      case Button.CarSwitch: return 11;
+    }
+  }
+}
+
 class _ControlPanelState extends State<ControlPanel> {
   final double _iconSize = 50;
+  final GRID_SIZE = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -23,39 +48,39 @@ class _ControlPanelState extends State<ControlPanel> {
               shrinkWrap: true,
               crossAxisCount: 4,
               crossAxisSpacing: 20,
-              children: List.generate(12, (index) {
-                if (index == 1) {
+              children: List.generate(GRID_SIZE, (index) {
+                if (index == ButtonOffsets.getValue(Button.Up)) {
                   return CircleButton(
                     color: Colors.blue,
                     icon: Icons.arrow_upward_rounded,
                     action: "up",
                   );
-                } else if (index == 4) {
+                } else if (index == ButtonOffsets.getValue(Button.Left)) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_back_rounded,
                       action: "left");
-                } else if (index == 3) {
+                } else if (index == ButtonOffsets.getValue(Button.Run)) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.play_circle_fill,
                       action: "run");
-                } else if (index == 6) {
+                } else if (index == ButtonOffsets.getValue(Button.Right)) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_forward_rounded,
                       action: "right");
-                } else if (index == 9) {
+                } else if (index == ButtonOffsets.getValue(Button.Down)) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_downward_rounded,
                       action: "down");
-                } else if (index == 7) {
+                } else if (index == ButtonOffsets.getValue(Button.Delete)) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.close_rounded,
                       action: "delete");
-                } else if (index == 11) {
+                } else if (index == ButtonOffsets.getValue(Button.CarSwitch)) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.car_rental_rounded,
