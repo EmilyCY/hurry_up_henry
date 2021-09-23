@@ -4,6 +4,16 @@ import 'package:flutter/foundation.dart';
 import '../main.dart';
 import 'move.dart';
 
+enum ActionType {
+  Delete,
+  Run,
+  CarSwitch,
+  Up,
+  Down,
+  Left,
+  Right
+}
+
 class Controller with ChangeNotifier {
   int currentPosition = 0;
   static Random randomNum = new Random();
@@ -35,33 +45,35 @@ class Controller with ChangeNotifier {
     this.moves = [];
   }
 
-  void makeMove(String direction) {
+  void makeMove(ActionType action) {
     List<int> boundary = [];
 
-    switch (direction) {
-      case "left":
+    switch (action) {
+      case ActionType.Left:
         {
           boundary = this.leftBoundary;
         }
         break;
-      case "right":
+      case ActionType.Right:
         {
           boundary = this.rightBoundary;
         }
         break;
-      case "up":
+      case ActionType.Up:
         {
           boundary = this.upperBoundary;
         }
         break;
-      case "down":
+      case ActionType.Down:
         {
           boundary = this.lowerBoundary;
         }
         break;
+      default: break;
     }
+
     if (boundary.every((n) => n != this.currentPosition)) {
-      Move move = new Move(direction);
+      Move move = new Move(action);
       this.moves.add(move);
       notifyListeners();
     }
