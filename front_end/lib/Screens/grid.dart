@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hurry_up_henry/Models/car_status.dart';
-import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'package:hurry_up_henry/main.dart';
 import 'package:provider/provider.dart';
 import 'package:hurry_up_henry/Providers/controller.dart';
@@ -11,19 +9,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  Color _car_color = Colors.red;
-
-  @override
-  void initState() {
-    String carStatus = APIManager().getCarStatus();
-    if (carStatus == "ready") {
-      _car_color = Colors.red;
-    } else {
-      _car_color = Colors.green;
-    }
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1 / 1,
@@ -39,11 +24,17 @@ class _GridState extends State<Grid> {
                     ? (Icon(
                         Icons.face_outlined,
                         size: 40,
-                        color: _car_color,
+                        color: Colors.green[600],
                       )
                         //print("in return container");
                         )
-                    : null,
+                    : index == context.watch<Controller>().goalPosition
+                        ? (Icon(
+                            Icons.star,
+                            size: 40, //needs scaling?
+                            color: Colors.yellow[600],
+                          ))
+                        : null,
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     border: Border.all(

@@ -12,7 +12,7 @@ class Move {
   Move(ActionType action) {
     this.direction = action;
 
-    switch (this.direction) {
+    switch (direction) {
       case ActionType.Left:
         {
           this.positionChange = -1;
@@ -42,5 +42,4 @@ class Move {
         break;
     }
   }
-
 }
