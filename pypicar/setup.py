@@ -12,6 +12,7 @@ REQUIRES = [
     "aiohttp_jinja2",
     "aiohttp_cors",
     "wheel",
+    "click<=7.1.2",
 
     "pytest",
     "pytest-cov",
