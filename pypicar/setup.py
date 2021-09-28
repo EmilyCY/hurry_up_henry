@@ -9,7 +9,8 @@ VERSION = "0.0.1"
 REQUIRES = [
     "connexion",
     "swagger-ui-bundle",
-    "aiohttp_jinja2",
+    "jinja2==2.10.1",
+    "aiohttp_jinja2==1.4.2",
     "aiohttp_cors",
     "wheel",
     "click<=7.1.2",
