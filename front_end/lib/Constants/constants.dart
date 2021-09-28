@@ -67,7 +67,7 @@ abstract class Constants {
   //static const unencodedPath = '/ui/';
   static const statusPath = '/ui/';
   static const drivePath = '/ui/';
-  static const apikey = 'hurruphenry';
+  static const apikey = 'special-key';
 
   // screen constants
   static const gridNum = 100;
