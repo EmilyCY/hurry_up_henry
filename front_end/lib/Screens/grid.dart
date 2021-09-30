@@ -10,17 +10,11 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  Color _car_color = Colors.red;
 
   @override
   void initState() {
     super.initState();
     String carStatus = APIManager.getCarStatus();
-    if (carStatus == "ready") {
-      _car_color = Colors.red;
-    } else {
-      _car_color = Colors.green;
-    }
   }
 
   Widget build(BuildContext context) {
