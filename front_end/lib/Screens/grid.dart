@@ -11,7 +11,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  //Color _car_color = Colors.red;
   late Future<CarStatus> futureCarStatus;
 
   @override
