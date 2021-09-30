@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final carStatus = carStatusFromJson(jsonString);
-
 import 'dart:convert';
 
 CarStatus carStatusFromJson(String str) => CarStatus.fromJson(json.decode(str));
@@ -9,13 +5,13 @@ CarStatus carStatusFromJson(String str) => CarStatus.fromJson(json.decode(str));
 String carStatusToJson(CarStatus data) => json.encode(data.toJson());
 
 class CarStatus {
+  String name;
+  String status;
+
   CarStatus({
     required this.name,
     required this.status,
   });
-
-  String name;
-  String status;
 
   factory CarStatus.fromJson(Map<String, dynamic> json) => CarStatus(
         name: json["name"],
@@ -26,4 +22,8 @@ class CarStatus {
         "name": name,
         "status": status,
       };
+
+  fetchStatus() {
+    return status;
+  }
 }

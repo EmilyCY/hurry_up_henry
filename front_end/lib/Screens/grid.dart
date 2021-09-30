@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hurry_up_henry/Constants/constants.dart';
+import 'package:hurry_up_henry/Models/car_status.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:hurry_up_henry/Providers/controller.dart';
@@ -10,17 +11,15 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  Color _car_color = Colors.red;
+  //Color _car_color = Colors.red;
+  late Future<CarStatus> futureCarStatus;
 
   @override
   void initState() {
     super.initState();
-    String carStatus = APIManager.getCarStatus();
-    if (carStatus == "ready") {
-      _car_color = Colors.red;
-    } else {
-      _car_color = Colors.green;
-    }
+    print("status begin");
+    futureCarStatus = APIManager.getCarStatus();
+    print("car status end");
   }
 
   Widget build(BuildContext context) {
@@ -29,16 +28,38 @@ class _GridState extends State<Grid> {
       child: Container(
         child: GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 10,
+            crossAxisCount: 10, // put to constant
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
             children: List.generate(Constants.gridNum, (index) {
               return Container(
                 child: index == context.watch<Controller>().currentPosition
-                    ? (Icon(
-                        Icons.face_outlined,
-                        size: 40,
-                        color: _car_color,
+                    ? (FutureBuilder<CarStatus>(
+                        future: futureCarStatus,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data!.status == "READY") {
+                              return Icon(
+                                Icons.face_outlined,
+                                size: 40,
+                                color: Colors.green,
+                              );
+                            } else {
+                              return Icon(
+                                Icons.face_outlined,
+                                size: 40,
+                                color: Colors.red,
+                              );
+                            }
+                          } else {
+                            print(snapshot.error);
+                            return Icon(
+                              Icons.face_outlined,
+                              size: 40,
+                              color: Colors.red,
+                            );
+                          }
+                        },
                       ))
                     : index == context.watch<Controller>().goalPosition
                         ? (Icon(

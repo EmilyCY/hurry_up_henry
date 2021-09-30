@@ -4,7 +4,6 @@ import 'package:hurry_up_henry/Providers/controller.dart';
 import 'package:provider/provider.dart';
 
 class CircleButton extends StatelessWidget {
-  
   final Color color;
   final double iconSize;
   final IconData icon;
@@ -13,7 +12,7 @@ class CircleButton extends StatelessWidget {
   const CircleButton({
     Key? key,
     required this.color,
-    this.iconSize = 50,
+    this.iconSize = 40,
     required this.icon,
     required this.action,
   }) : super(key: key);
@@ -21,7 +20,7 @@ class CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(0),
       child: ElevatedButton(
         onPressed: () {
           if (action == ActionType.Delete) {
@@ -35,7 +34,10 @@ class CircleButton extends StatelessWidget {
             context.read<Controller>().makeMove(action);
           }
         },
-        child: Icon(this.icon, size: this.iconSize),
+        child: Align(
+          alignment: Alignment.center,
+          child: Icon(this.icon, size: this.iconSize),
+        ),
         style: ElevatedButton.styleFrom(
           shape: CircleBorder(),
           primary: this.color, // Button color

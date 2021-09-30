@@ -63,7 +63,7 @@ final moveSFXpath = "assets/move.wav";
 // setting as abstract class to prevent from instantiation
 abstract class Constants {
   // http constants
-  static const url = '127.0.0.1:8080';
+  static const url = '127.0.0.1:8088';
   //static const unencodedPath = '/ui/';
   static const statusPath = '/ui/';
   static const drivePath = '/ui/';
