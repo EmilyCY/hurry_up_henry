@@ -18,7 +18,11 @@ REQUIRES = [
     "pytest",
     "pytest-cov",
     "pytest-randomly",
-    "pytest-aiohttp>=0.3.0"
+    "pytest-aiohttp>=0.3.0",
+
+    "debugpy",
+    "marshmallow",
+    "marshmallow_enum",
 ]
 
 setup(
