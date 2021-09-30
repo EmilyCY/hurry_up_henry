@@ -1,23 +1,22 @@
 import 'dart:convert';
 import "package:http/http.dart" as http;
 import 'package:hurry_up_henry/Constants/constants.dart';
+import 'package:hurry_up_henry/Models/car_status.dart';
 
 // setting as abstract class to prevent from instantiation
 abstract class APIManager {
-  static getCarStatus() async {
+  static Future<CarStatus> getCarStatus() async {
     final response = await http.get(
-      Uri.http(Constants.url, '/car/rotate'),
+      Uri.http(Constants.url, '/car/status'),
       headers: <String, String>{
         'Acept': 'application/json',
         'X-API-Key': Constants.apikey,
       },
     );
     if (response.statusCode == 200) {
-      var jsonString = response.body;
-      var carStatus = json.decode(jsonString);
-      return carStatus;
-    } else if (response.statusCode == 405) {
-      print("invalid request");
+      var jsonString = response.body.replaceAll('\'', '\"');
+      print(jsonString); // for testing
+      return carStatusFromJson(jsonString);
     } else {
       throw Exception('Failed to get car status');
     }
@@ -38,7 +37,7 @@ abstract class APIManager {
     if (response.statusCode == 200) {
       print("rotation successful"); // for testing
       postDrive();
-      // notify the car ok to keep moving???
+      // notify the getcurrent position  ok to keep moving???
     } else {
       throw Exception('Failed to rotate the car.');
     }
