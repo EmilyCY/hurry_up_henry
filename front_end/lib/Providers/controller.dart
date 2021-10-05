@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import '../main.dart';
+import 'package:hurry_up_henry/Constants/constants.dart';
+import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
-import 'package:audioplayers/audioplayers.dart';
-
-//todo: move elsewhere
-AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-final winSFXpath = "assets/win.wav";
-final loseSFXpath = "assets/lose.wav";
-final moveSFXpath = "assets/move.wav";
-
-enum ActionType { Delete, Run, CarSwitch, Up, Down, Left, Right }
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
@@ -19,6 +11,7 @@ class Controller with ChangeNotifier {
   static Random randomNum = new Random();
   int startPosition = 0;
   List<Move> moves = [];
+  static Direction facing = Direction.Up;
 
   Controller() {
     currentPosition = randomNum.nextInt(99);
@@ -32,6 +25,8 @@ class Controller with ChangeNotifier {
       if (!isOutOfBounds(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
         player.play(moveSFXpath);
+        postInstruction(move);
+        // check success to continue?? 
       } else {
         lose();
         break;
@@ -47,6 +42,7 @@ class Controller with ChangeNotifier {
   void newGame() {
     newGoal();
     moves = [];
+    facing = Direction.Up;
   }
 
   void newGoal() {
@@ -54,7 +50,7 @@ class Controller with ChangeNotifier {
   }
 
   void makeMove(ActionType action) {
-    Move move = new Move(action);
+    Move move = new Move(action.direction);
     this.moves.add(move);
     notifyListeners();
   }
@@ -80,37 +76,105 @@ class Controller with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isOutOfBounds(int currentPosition, ActionType direction) {
+  bool isOutOfBounds(int currentPosition, Direction direction) {
     switch (direction) {
-      case ActionType.Left:
+      case Direction.Left:
         {
-          if (currentPosition % sqrt(GRID_NUM) != 0) {
+          if (currentPosition % sqrt(Constants.gridNum) != 0) {
             return false;
           }
         }
         break;
-      case ActionType.Right:
+      case Direction.Right:
         {
-          if (currentPosition % sqrt(GRID_NUM) != sqrt(GRID_NUM) - 1) {
+          if (currentPosition % sqrt(Constants.gridNum) != sqrt(Constants.gridNum) - 1) {
             return false;
           }
         }
         break;
-      case ActionType.Up:
+      case Direction.Up:
         {
-          if (currentPosition - sqrt(GRID_NUM) >= 0) {
+          if (currentPosition - sqrt(Constants.gridNum) >= 0) {
             return false;
           }
         }
         break;
-      case ActionType.Down:
+      case Direction.Down:
         {
-          if (currentPosition + sqrt(GRID_NUM) <= GRID_NUM) {
+          if (currentPosition + sqrt(Constants.gridNum) <= Constants.gridNum) {
             return false;
           }
         }
         break;
     }
     return true;
+  }
+
+  void postInstruction(Move move) {
+    if (move.direction == Direction.Up && facing == Direction.Up) {
+      //post drive
+      APIManager.postDrive();
+      facing = Direction.Up;
+    } else if (move.direction == Direction.Up && facing == Direction.Down) {
+      // post reverse
+      APIManager.postReverse();
+      facing = Direction.Down;
+    } else if (move.direction == Direction.Up && facing == Direction.Left) {
+      // post true, drive
+      APIManager.postRotatDrive(true);
+      facing = Direction.Up;
+    } else if (move.direction == Direction.Up && facing == Direction.Right) {
+      // post false, drive
+      APIManager.postRotatDrive(false);
+      facing = Direction.Up;
+    } else if (move.direction == Direction.Down && facing == Direction.Up) {
+      // post reverse
+      APIManager.postReverse();
+      facing = Direction.Up;
+    } else if (move.direction == Direction.Down && facing == Direction.Down) {
+      // post drive
+      APIManager.postDrive();
+      facing = Direction.Down;
+    } else if (move.direction == Direction.Down && facing == Direction.Left) {
+      // post false, drive
+      APIManager.postRotatDrive(false);
+      facing = Direction.Down;
+    } else if (move.direction == Direction.Down && facing == Direction.Right) {
+      // post true, drive
+      APIManager.postRotatDrive(true);
+      facing = Direction.Down;
+    } else if (move.direction == Direction.Left && facing == Direction.Up) {
+      // post false, drive
+      APIManager.postRotatDrive(false);
+      facing = Direction.Left;
+    } else if (move.direction == Direction.Left && facing == Direction.Down) {
+      // post true, left
+      APIManager.postRotatDrive(true);
+      facing = Direction.Left;
+    } else if (move.direction == Direction.Left && facing == Direction.Left) {
+      // post drive
+      APIManager.postDrive();
+      facing = Direction.Left;
+    } else if (move.direction == Direction.Left && facing == Direction.Right) {
+      // post reverse
+      APIManager.postReverse();
+      facing = Direction.Right;
+    } else if (move.direction == Direction.Right && facing == Direction.Up) {
+      // post true, drive
+      APIManager.postRotatDrive(true);
+      facing = Direction.Right;
+    } else if (move.direction == Direction.Right && facing == Direction.Down) {
+      // post false, drive
+      APIManager.postRotatDrive(false);
+      facing = Direction.Right;
+    } else if (move.direction == Direction.Right && facing == Direction.Left) {
+      // post reverse
+      APIManager.postReverse();
+      facing = Direction.Left;
+    } else if (move.direction == Direction.Right && facing == Direction.Right) {
+      //post drive
+      APIManager.postDrive();
+      facing = Direction.Right;
+    }
   }
 }

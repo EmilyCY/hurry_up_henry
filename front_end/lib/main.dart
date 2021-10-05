@@ -3,9 +3,6 @@ import 'Screens/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-const GRID_NUM = 100;
-//Controller controller = new Controller();
-
 void main() {
   runApp(
     MultiProvider(
