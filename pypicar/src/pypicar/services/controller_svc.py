@@ -38,13 +38,14 @@ class ControllerService(BaseController):
         #in case we need something to initialise async                
         self.log.debug("ControllerService::apply")
 
-        # try:
-        #     await services.get('freenove_ctl_svc').apply()
-        #     if services.get('freenove_ctl_svc')._is_connected():
-        #         self.ctl_impl_svc : BaseController = services.get('freenove_ctl_svc')
-        #     return
-        # except Exception as ex:
-        #      self.log.info("Freenove controller not available {det}".format(det=str(ex)))
+        try:
+            await services.get('freenove_ctl_svc').apply()
+            if services.get('freenove_ctl_svc')._is_connected():
+                self.ctl_impl_svc : BaseController = services.get('freenove_ctl_svc')
+            return
+        except Exception as ex:
+             self.log.info("Freenove controller not available {det}".format(det=str(ex)))
+
 
         try:
             await services.get('fake_ctl_svc').apply()
