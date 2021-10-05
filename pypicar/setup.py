@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_namespace_packages
 
 NAME = "pypicar"
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 REQUIRES = [
     "connexion",
@@ -18,7 +18,12 @@ REQUIRES = [
     "pytest",
     "pytest-cov",
     "pytest-randomly",
-    "pytest-aiohttp>=0.3.0"
+    "pytest-aiohttp>=0.3.0",
+
+    "debugpy",
+    "marshmallow",
+    "marshmallow_enum",
+    "smbus", #freenove
 ]
 
 setup(
