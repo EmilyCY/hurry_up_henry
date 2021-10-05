@@ -25,11 +25,11 @@ class COMMAND:
     def __init__(self):
         pass
 
-CELL_SPEED_DELAY_S      = 2
-CELL_ROTATE_DELAY_S     = 2
-CELL_SPEED              = 2000
-CELL_SPEED_ROTATE       = 2000
-CELL_SPEED_COMPENSATION = -500
+CELL_SPEED_DELAY_S      = 1
+CELL_ROTATE_DELAY_S     = 0.8
+CELL_SPEED              = 1000
+CELL_SPEED_ROTATE       = 2621
+CELL_SPEED_COMPENSATION = 1000 #-500
 
 class FreenoveCtlService(BaseService):
 
@@ -66,22 +66,24 @@ class FreenoveCtlService(BaseService):
 
     async def _freenove_drive_forward(self):
         await self._freenove_stop_car()
-        self.pwm.setMotorModel(CELL_SPEED,CELL_SPEED,CELL_SPEED,CELL_SPEED)
+        self.pwm.setMotorModel((-1)*CELL_SPEED,(-1)*CELL_SPEED,(-1)*CELL_SPEED,(-1)*CELL_SPEED)
         await asyncio.sleep(CELL_SPEED_DELAY_S)
         await self._freenove_stop_car()
 
     async def _freenove_drive_back(self):
         await self._freenove_stop_car()
-        self.pwm.setMotorModel((-1)*CELL_SPEED,(-1)*CELL_SPEED,(-1)*CELL_SPEED,(-1)*CELL_SPEED)
+        self.pwm.setMotorModel(CELL_SPEED,CELL_SPEED,CELL_SPEED,CELL_SPEED)
         await asyncio.sleep(CELL_SPEED_DELAY_S)
         await self._freenove_stop_car()
 
     async def _freenove_rotate(self, clockwise=True):
         await self._freenove_stop_car()
         if clockwise:
-            self.pwm.setMotorModel(CELL_SPEED_ROTATE,CELL_SPEED_ROTATE,(-1)*CELL_SPEED_COMPENSATION,(-1)*CELL_SPEED_COMPENSATION)
+            self.pwm.setMotorModel((-1)*CELL_SPEED_ROTATE,(-1)*CELL_SPEED_ROTATE,CELL_SPEED_ROTATE-CELL_SPEED_COMPENSATION,CELL_SPEED_ROTATE-CELL_SPEED_COMPENSATION)
         else:
-            self.pwm.setMotorModel((-1)*CELL_SPEED_COMPENSATION,(-1)*CELL_SPEED_COMPENSATION, CELL_SPEED_ROTATE, CELL_SPEED_ROTATE)
+            #todo
+            self.pwm.setMotorModel((-1)*CELL_SPEED_ROTATE,(-1)*CELL_SPEED_ROTATE,CELL_SPEED_ROTATE-CELL_SPEED_COMPENSATION,CELL_SPEED_ROTATE-CELL_SPEED_COMPENSATION)
+
         await asyncio.sleep(CELL_ROTATE_DELAY_S)
         await self._freenove_stop_car()
 
