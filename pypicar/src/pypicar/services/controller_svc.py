@@ -76,9 +76,9 @@ class ControllerService(BaseController):
         self.log.debug("ControllerService::reverse_car")
         return await self.ctl_impl_svc.reverse_car()
 
-    async def rotate_car(self) -> CommandStatus:
+    async def rotate_car(self, clockwise:bool = True) -> CommandStatus:
         self.log.debug("ControllerService::rotate_car")
-        return await self.ctl_impl_svc.rotate_car()
+        return await self.ctl_impl_svc.rotate_car(clockwise)
 
     async def teardown(self, main_config_file='default'):
         self.log.debug('[!] shutting down server...good-bye')

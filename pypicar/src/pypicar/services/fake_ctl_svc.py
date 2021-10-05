@@ -31,6 +31,6 @@ class FakeCtlService(BaseController):
         self.log.debug("FakeCtlService::reverse_car")
         return CommandStatus.OK
 
-    async def rotate_car(self) -> CommandStatus:
-        self.log.debug("FakeCtlService::rotate_car")
+    async def rotate_car(self, clockwise:bool = True) -> CommandStatus:
+        self.log.debug("FreenoveCtlService::rotate_car clockwise={}".format(str(clockwise)))
         return CommandStatus.OK

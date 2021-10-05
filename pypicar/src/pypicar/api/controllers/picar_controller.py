@@ -58,6 +58,12 @@ async def reverse_car(request: web.Request, ) -> web.Response:
 
 
     """
+    svc = BaseService.get_service('ctl_svc')
+    try:
+        result : CommandStatus = await svc.reverse_car()
+    except Exception as ex:
+        logging.error(ex)
+
     return web.Response(status=200)
 
 
@@ -69,6 +75,14 @@ async def rotate_car(request: web.Request, body=None) -> web.Response:
     :param body: 
     :type body: dict | bytes
 
-    """
+    """    
     body = Rotate.from_dict(body)
+    svc = BaseService.get_service('ctl_svc')
+    print(body.clockwise)
+    
+    try:
+        result : CommandStatus = await svc.rotate_car(body.clockwise)
+    except Exception as ex:
+        logging.error(ex)
+    
     return web.Response(status=200)

@@ -41,6 +41,6 @@ class BaseController(BaseService, metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    async def rotate_car(self):
+    async def rotate_car(self, clockwise:bool = True):
         pass
 

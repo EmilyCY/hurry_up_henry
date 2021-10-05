@@ -23,7 +23,6 @@ REQUIRES = [
     "debugpy",
     "marshmallow",
     "marshmallow_enum",
-    "smbus", #freenove
 ]
 
 setup(
@@ -37,6 +36,9 @@ setup(
     package_dir={"": "src"},
     package_data={'': ['api/openapi/openapi.yaml']},
     packages=find_namespace_packages(where='src'),
+    extras_require = {
+        'raspberrypi':  ["smbus"]
+    },
     include_package_data=True,
     entry_points={
         'console_scripts': ['pypicar=pypicar:main']},
