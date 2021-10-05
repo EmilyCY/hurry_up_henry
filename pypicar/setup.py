@@ -23,6 +23,7 @@ REQUIRES = [
     "debugpy",
     "marshmallow",
     "marshmallow_enum",
+    "smbus", #freenove
 ]
 
 setup(

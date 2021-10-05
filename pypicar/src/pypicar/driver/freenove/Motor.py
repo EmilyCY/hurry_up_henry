@@ -1,5 +1,7 @@
 import time
-from PCA9685 import PCA9685
+
+from pypicar.driver.freenove.PCA9685 import PCA9685
+
 class Motor:
     def __init__(self):
         self.pwm = PCA9685(0x40, debug=True)
