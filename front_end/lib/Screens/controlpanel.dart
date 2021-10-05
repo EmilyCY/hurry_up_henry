@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hurry_up_henry/Providers/controller.dart';
+import 'package:hurry_up_henry/Constants/constants.dart';
 import 'circle_button.dart';
 import 'console.dart';
 
@@ -10,28 +10,7 @@ class ControlPanel extends StatefulWidget {
   _ControlPanelState createState() => _ControlPanelState();
 }
 
-enum ButtonType {
-  Up,
-  Left,
-  Run,
-  Right,
-  Down,
-  Delete,
-  CarSwitch
-}
-class ButtonOffsets {
-  static int getValue(ButtonType button) {
-    switch (button) {
-      case ButtonType.Up:   return 1;
-      case ButtonType.Left: return 4;
-      case ButtonType.Run:  return 3;
-      case ButtonType.Right: return 6;
-      case ButtonType.Down: return 9;
-      case ButtonType.Delete: return 7;
-      case ButtonType.CarSwitch: return 11;
-    }
-  }
-}
+class ButtonOffsets {}
 
 class _ControlPanelState extends State<ControlPanel> {
   final double _iconSize = 50;
@@ -49,38 +28,38 @@ class _ControlPanelState extends State<ControlPanel> {
               crossAxisCount: 4,
               crossAxisSpacing: 20,
               children: List.generate(GRID_SIZE, (index) {
-                if (index == ButtonOffsets.getValue(ButtonType.Up)) {
+                if (index == ActionType.MoveUp.buttonIndex) {
                   return CircleButton(
                     color: Colors.blue,
                     icon: Icons.arrow_upward_rounded,
-                    action: ActionType.Up,
+                    action: ActionType.MoveUp,
                   );
-                } else if (index == ButtonOffsets.getValue(ButtonType.Left)) {
+                } else if (index == ActionType.MoveLeft.buttonIndex) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_back_rounded,
-                      action: ActionType.Left);
-                } else if (index == ButtonOffsets.getValue(ButtonType.Run)) {
+                      action: ActionType.MoveLeft);
+                } else if (index == ActionType.Run.buttonIndex) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.play_circle_fill,
                       action: ActionType.Run);
-                } else if (index == ButtonOffsets.getValue(ButtonType.Right)) {
+                } else if (index == ActionType.MoveRight.buttonIndex) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_forward_rounded,
-                      action: ActionType.Right);
-                } else if (index == ButtonOffsets.getValue(ButtonType.Down)) {
+                      action: ActionType.MoveRight);
+                } else if (index == ActionType.MoveDown.buttonIndex) {
                   return CircleButton(
                       color: Colors.blue,
                       icon: Icons.arrow_downward_rounded,
-                      action: ActionType.Down);
-                } else if (index == ButtonOffsets.getValue(ButtonType.Delete)) {
+                      action: ActionType.MoveDown);
+                } else if (index == ActionType.Delete.buttonIndex) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.close_rounded,
                       action: ActionType.Delete);
-                } else if (index == ButtonOffsets.getValue(ButtonType.CarSwitch)) {
+                } else if (index == ActionType.CarSwitch.buttonIndex) {
                   return CircleButton(
                       color: Colors.deepOrangeAccent,
                       icon: Icons.car_rental_rounded,
