@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:hurry_up_henry/Providers/controller.dart';
 
@@ -19,7 +20,11 @@ class _ConsoleState extends State<Console> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.lightGreen[100],
+      padding: EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage(Constants.consoleFrame), fit: BoxFit.cover),
+      ),
       child: GridView.count(
           shrinkWrap: true,
           crossAxisCount: 6,

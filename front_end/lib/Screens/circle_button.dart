@@ -4,16 +4,12 @@ import 'package:hurry_up_henry/Providers/controller.dart';
 import 'package:provider/provider.dart';
 
 class CircleButton extends StatelessWidget {
-  final Color color;
-  final double iconSize;
-  final IconData icon;
+  final String image;
   final ActionType action;
 
   const CircleButton({
     Key? key,
-    required this.color,
-    this.iconSize = 40,
-    required this.icon,
+    required this.image,
     required this.action,
   }) : super(key: key);
 
@@ -21,29 +17,23 @@ class CircleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(0),
-      child: ElevatedButton(
-        onPressed: () {
-          if (action == ActionType.Delete) {
-            context.read<Controller>().deleteMove();
-          } else if (action == ActionType.Run) {
-            context.read<Controller>().getCurrentPosition();
-          } else if (action == ActionType.CarSwitch) {
-            // placeholder for API
-            print(" car switch is on");
-          } else {
-            context.read<Controller>().makeMove(action);
-          }
-        },
-        child: Align(
-          alignment: Alignment.center,
-          child: Icon(this.icon, size: this.iconSize),
-        ),
-        style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          primary: this.color, // Button color
-          onPrimary: Colors.black,
-        ),
-      ),
+      child: MaterialButton(
+          onPressed: () {
+            if (action == ActionType.Delete) {
+              context.read<Controller>().deleteMove();
+            } else if (action == ActionType.Run) {
+              context.read<Controller>().getCurrentPosition();
+            } else if (action == ActionType.Restart) {
+              context.read<Controller>().newGame();
+            } else {
+              context.read<Controller>().makeMove(action);
+            }
+          },
+          child: Container(
+              decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(this.image), fit: BoxFit.contain),
+          ))),
     );
   }
 }
