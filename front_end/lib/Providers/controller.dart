@@ -5,7 +5,6 @@ import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
 import 'difficulty.dart';
-import 'package:hurry_up_henry/Screens/grid.dart';
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
@@ -28,7 +27,7 @@ class Controller with ChangeNotifier {
 
       if (!isOutOfBounds(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
-        //player.play(moveSFXpath);
+        player.play(moveSFXpath);
         postInstruction(move);
         // check success to continue??
       } else {
@@ -45,6 +44,7 @@ class Controller with ChangeNotifier {
 
   void newGame() {
     Constants.gridNum = difficulty.getGridSize();
+    print(difficulty.getGridSize().toString());
     newGoal();
     moves = [];
     facing = Direction.Up;
@@ -70,16 +70,17 @@ class Controller with ChangeNotifier {
   }
 
   void win() {
-    //player.play(winSFXpath);
+    player.play(winSFXpath);
     winCounter++;
     if (winCounter == 1) {
       difficulty.levelUp();
+      winCounter = 0;
     }
     newGame();
   }
 
   void lose() {
-    //player.play(loseSFXpath);
+    player.play(loseSFXpath);
     print("lose");
     moves = [];
     notifyListeners();

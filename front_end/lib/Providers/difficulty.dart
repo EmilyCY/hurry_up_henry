@@ -39,8 +39,25 @@ class Difficulty {
           return 64; // 8x8
         }
     }
-    //get obstacle number
-    //get min distance
-    //..etc.
   }
+
+  int getNumOfObstaces() {
+    switch (currentLevel) {
+      case Levels.Easy:
+        {
+          return 0; // No obstacles
+        }
+      case Levels.Medium:
+        {
+          return 1; // One obstacle
+        }
+      case Levels.Hard:
+        {
+          return 3; // It's possible for the solution to become impossible with 2 obstacles or more
+        }
+    }
+  }
+  //get obstacle number
+  //get min distance
+  //..etc.
 }
