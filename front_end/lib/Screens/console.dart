@@ -23,7 +23,7 @@ class _ConsoleState extends State<Console> {
       padding: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(Constants.consoleFrame), fit: BoxFit.cover),
+            image: AssetImage(Constants.consoleFrame), fit: BoxFit.fill),
       ),
       child: GridView.count(
           shrinkWrap: true,

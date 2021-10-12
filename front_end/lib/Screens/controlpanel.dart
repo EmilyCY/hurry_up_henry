@@ -18,14 +18,14 @@ class _ControlPanelState extends State<ControlPanel> {
     return Column(
       children: [
         Expanded(child: Console(iconSize: Constants.consoleIconSize)),
-        AspectRatio(
-          aspectRatio: 4 / 3,
+        Container(
           child: Container(
+            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
             color: Constants.consoleColor,
             child: GridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 4,
-                crossAxisSpacing: 10,
+                crossAxisSpacing: 20,
                 children: List.generate(Constants.controlGridNumber, (index) {
                   if (index == ActionType.MoveUp.buttonIndex) {
                     return CircleButton(
@@ -38,8 +38,7 @@ class _ControlPanelState extends State<ControlPanel> {
                         action: ActionType.MoveLeft);
                   } else if (index == ActionType.Run.buttonIndex) {
                     return CircleButton(
-                        image: Constants.runButton,
-                        action: ActionType.Run);
+                        image: Constants.runButton, action: ActionType.Run);
                   } else if (index == ActionType.MoveRight.buttonIndex) {
                     return CircleButton(
                         image: Constants.rightButton,
