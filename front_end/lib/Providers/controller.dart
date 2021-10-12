@@ -4,17 +4,21 @@ import 'package:flutter/foundation.dart';
 import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
+import 'difficulty.dart';
+import 'package:hurry_up_henry/Screens/grid.dart';
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
+  int winCounter = 0;
   int goalPosition = 0;
   static Random randomNum = new Random();
   int startPosition = 0;
   List<Move> moves = [];
+  Difficulty difficulty = new Difficulty();
   static Direction facing = Direction.Up;
 
   Controller() {
-    currentPosition = randomNum.nextInt(99);
+    currentPosition = randomNum.nextInt(Constants.gridNum);
     newGame();
   }
 
@@ -24,9 +28,9 @@ class Controller with ChangeNotifier {
 
       if (!isOutOfBounds(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
-        player.play(moveSFXpath);
+        //player.play(moveSFXpath);
         postInstruction(move);
-        // check success to continue?? 
+        // check success to continue??
       } else {
         lose();
         break;
@@ -40,13 +44,14 @@ class Controller with ChangeNotifier {
   }
 
   void newGame() {
+    Constants.gridNum = difficulty.getGridSize();
     newGoal();
     moves = [];
     facing = Direction.Up;
   }
 
   void newGoal() {
-    goalPosition = randomNum.nextInt(99);
+    goalPosition = randomNum.nextInt(Constants.gridNum - 1);
   }
 
   void makeMove(ActionType action) {
@@ -65,12 +70,16 @@ class Controller with ChangeNotifier {
   }
 
   void win() {
-    player.play(winSFXpath);
+    //player.play(winSFXpath);
+    winCounter++;
+    if (winCounter == 1) {
+      difficulty.levelUp();
+    }
     newGame();
   }
 
   void lose() {
-    player.play(loseSFXpath);
+    //player.play(loseSFXpath);
     print("lose");
     moves = [];
     notifyListeners();
@@ -87,7 +96,8 @@ class Controller with ChangeNotifier {
         break;
       case Direction.Right:
         {
-          if (currentPosition % sqrt(Constants.gridNum) != sqrt(Constants.gridNum) - 1) {
+          if (currentPosition % sqrt(Constants.gridNum) !=
+              sqrt(Constants.gridNum) - 1) {
             return false;
           }
         }

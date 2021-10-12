@@ -54,11 +54,13 @@ extension ActionExtension on ActionType {
   }
 }
 
+enum Levels { Easy, Medium, Hard }
+
 //sound effects
-AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-final winSFXpath = "assets/win.wav";
-final loseSFXpath = "assets/lose.wav";
-final moveSFXpath = "assets/move.wav";
+//AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+//final winSFXpath = "assets/win.wav";
+//final loseSFXpath = "assets/lose.wav";
+//final moveSFXpath = "assets/move.wav";
 
 // setting as abstract class to prevent from instantiation
 abstract class Constants {
@@ -70,7 +72,9 @@ abstract class Constants {
   static const apikey = 'special-key';
 
   // screen constants
-  static const gridNum = 100;
+
   static const buttonIconSize = 50;
   static const Color directionButtonColor = Colors.blue;
+
+  static int gridNum = 16; //this does not work.
 }

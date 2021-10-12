@@ -4,6 +4,7 @@ import 'package:hurry_up_henry/Models/car_status.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:hurry_up_henry/Providers/controller.dart';
+import '../Providers/controller.dart';
 
 class Grid extends StatefulWidget {
   const Grid({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _GridState extends State<Grid> {
       child: Container(
         child: GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 10, // put to constant
+            crossAxisCount: 4, // put to constant
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
             children: List.generate(Constants.gridNum, (index) {
