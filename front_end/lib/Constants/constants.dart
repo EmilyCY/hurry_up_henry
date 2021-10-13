@@ -2,15 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 // seperate enum for action types and directions to avoid confusion
-enum ActionType {
-  Delete,
-  Run,
-  CarSwitch,
-  MoveUp,
-  MoveDown,
-  MoveLeft,
-  MoveRight
-}
+enum ActionType { Delete, Run, Restart, MoveUp, MoveDown, MoveLeft, MoveRight }
 enum Direction { Up, Down, Left, Right }
 
 extension ActionExtension on ActionType {
@@ -28,7 +20,7 @@ extension ActionExtension on ActionType {
         return 9;
       case ActionType.Delete:
         return 7;
-      case ActionType.CarSwitch:
+      case ActionType.Restart:
         return 11;
     }
   }
@@ -48,7 +40,7 @@ extension ActionExtension on ActionType {
         return Direction.Down;
       case ActionType.Delete:
         break;
-      case ActionType.CarSwitch:
+      case ActionType.Restart:
         break;
     }
   }
@@ -63,14 +55,27 @@ final moveSFXpath = "assets/move.wav";
 // setting as abstract class to prevent from instantiation
 abstract class Constants {
   // http constants
-  static const url = '127.0.0.1:8088';
-  //static const unencodedPath = '/ui/';
-  static const statusPath = '/ui/';
-  static const drivePath = '/ui/';
+  static const url = 'cube.atombox.net:8088';
   static const apikey = 'special-key';
+
+  // images
+  static const redCar = 'assets/images/redCar.png';
+  static const henry = 'assets/images/henry.png';
+  static const goal = 'assets/images/house.png';
+  static const gridBackground = 'assets/images/backGround.jpg';
+  static const consoleFrame = 'assets/images/monkey.png';
+  static const upButton = 'assets/images/arrowUp.png';
+  static const downButton = 'assets/images/arrowDown.png';
+  static const leftButton = 'assets/images/arrowLeft.png';
+  static const rightButton = 'assets/images/arrowRight.png';
+  static const runButton = 'assets/images/drive.png';
+  static const restartButton = 'assets/images/restart.png';
+  static const deleteButton = 'assets/images/delete.png';
 
   // screen constants
   static const gridNum = 100;
-  static const buttonIconSize = 50;
-  static const Color directionButtonColor = Colors.blue;
+  static const double consoleIconSize = 50;
+  static const gridSize = 50;
+  static const Color consoleColor = Color(0xff7cb342);
+  static const controlGridNumber = 12;
 }

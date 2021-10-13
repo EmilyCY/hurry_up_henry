@@ -35,6 +35,7 @@ abstract class APIManager {
       }),
     );
     if (response.statusCode == 200) {
+      await Future.delayed(Duration(seconds: 3));
       print("rotation successful"); // for testing
       postDrive();
       // notify the getcurrent position  ok to keep moving???

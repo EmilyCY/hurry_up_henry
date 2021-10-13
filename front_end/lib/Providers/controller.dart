@@ -14,19 +14,17 @@ class Controller with ChangeNotifier {
   static Direction facing = Direction.Up;
 
   Controller() {
-    currentPosition = randomNum.nextInt(99);
+    //currentPosition = randomNum.nextInt(99);
     newGame();
   }
 
   void getCurrentPosition() async {
     for (Move move in moves) {
-      await Future.delayed(Duration(milliseconds: 500));
-
       if (!isOutOfBounds(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
         player.play(moveSFXpath);
         postInstruction(move);
-        // check success to continue?? 
+        // check success to continue??
       } else {
         lose();
         break;
@@ -34,6 +32,7 @@ class Controller with ChangeNotifier {
 
       notifyListeners();
       print(currentPosition);
+      await Future.delayed(Duration(seconds: 3));
     }
     this.moves = [];
     winCondition();
@@ -43,10 +42,12 @@ class Controller with ChangeNotifier {
     newGoal();
     moves = [];
     facing = Direction.Up;
+    currentPosition = randomNum.nextInt(99);
   }
 
   void newGoal() {
     goalPosition = randomNum.nextInt(99);
+    notifyListeners();
   }
 
   void makeMove(ActionType action) {
@@ -87,7 +88,8 @@ class Controller with ChangeNotifier {
         break;
       case Direction.Right:
         {
-          if (currentPosition % sqrt(Constants.gridNum) != sqrt(Constants.gridNum) - 1) {
+          if (currentPosition % sqrt(Constants.gridNum) !=
+              sqrt(Constants.gridNum) - 1) {
             return false;
           }
         }

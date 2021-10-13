@@ -11,7 +11,6 @@ class Grid extends StatefulWidget {
 }
 
 class _GridState extends State<Grid> {
-  //Color _car_color = Colors.red;
   late Future<CarStatus> futureCarStatus;
 
   @override
@@ -26,6 +25,10 @@ class _GridState extends State<Grid> {
     return AspectRatio(
       aspectRatio: 1 / 1,
       child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(Constants.gridBackground), fit: BoxFit.cover),
+        ),
         child: GridView.count(
             shrinkWrap: true,
             crossAxisCount: 10, // put to constant
@@ -39,41 +42,36 @@ class _GridState extends State<Grid> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             if (snapshot.data!.status == "READY") {
-                              return Icon(
-                                Icons.face_outlined,
-                                size: 40,
-                                color: Colors.green,
+                              return Image.asset(
+                                Constants.henry,
+                                fit: BoxFit.contain,
                               );
                             } else {
-                              return Icon(
-                                Icons.face_outlined,
-                                size: 40,
-                                color: Colors.red,
+                              return Image.asset(
+                                Constants.redCar,
+                                fit: BoxFit.contain,
                               );
                             }
                           } else {
                             print(snapshot.error);
-                            return Icon(
-                              Icons.face_outlined,
-                              size: 40,
-                              color: Colors.red,
+                            return Image.asset(
+                              Constants.redCar,
+                              fit: BoxFit.contain,
                             );
                           }
                         },
                       ))
                     : index == context.watch<Controller>().goalPosition
-                        ? (Icon(
-                            Icons.star,
-                            size: 40, //needs scaling?
-                            color: Colors.yellow[600],
+                        ? (Image.asset(
+                            Constants.goal,
+                            fit: BoxFit.contain,
                           ))
                         : null,
                 decoration: BoxDecoration(
-                    color: Colors.grey[200],
                     border: Border.all(
-                      color: Colors.black,
-                      width: 1.5,
-                    )),
+                  color: Colors.black,
+                  width: 2,
+                )),
               );
             })),
       ),
