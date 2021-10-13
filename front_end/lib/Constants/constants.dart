@@ -46,6 +46,8 @@ extension ActionExtension on ActionType {
   }
 }
 
+enum Levels { Easy, Medium, Hard }
+
 //sound effects
 AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
 final winSFXpath = "assets/win.wav";
@@ -73,9 +75,12 @@ abstract class Constants {
   static const deleteButton = 'assets/images/delete.png';
 
   // screen constants
-  static const gridNum = 100;
   static const double consoleIconSize = 50;
   static const gridSize = 50;
   static const Color consoleColor = Color(0xff7cb342);
   static const controlGridNumber = 12;
+  static const buttonIconSize = 50;
+  static const Color directionButtonColor = Colors.blue;
+
+  static int gridNum = 16; //this does work, how about that.
 }

@@ -4,17 +4,20 @@ import 'package:flutter/foundation.dart';
 import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
+import 'difficulty.dart';
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
+  int winCounter = 0;
   int goalPosition = 0;
   static Random randomNum = new Random();
   int startPosition = 0;
   List<Move> moves = [];
+  Difficulty difficulty = new Difficulty();
   static Direction facing = Direction.Up;
 
   Controller() {
-    //currentPosition = randomNum.nextInt(99);
+    currentPosition = randomNum.nextInt(Constants.gridNum);
     newGame();
   }
 
@@ -39,6 +42,8 @@ class Controller with ChangeNotifier {
   }
 
   void newGame() {
+    Constants.gridNum = difficulty.getGridSize();
+    print(difficulty.getGridSize().toString());
     newGoal();
     moves = [];
     facing = Direction.Up;
@@ -46,8 +51,8 @@ class Controller with ChangeNotifier {
   }
 
   void newGoal() {
-    goalPosition = randomNum.nextInt(99);
-    notifyListeners();
+    //notifyListeners();
+    goalPosition = randomNum.nextInt(Constants.gridNum - 1);
   }
 
   void makeMove(ActionType action) {
@@ -67,6 +72,11 @@ class Controller with ChangeNotifier {
 
   void win() {
     player.play(winSFXpath);
+    winCounter++;
+    if (winCounter == 1) {
+      difficulty.levelUp();
+      winCounter = 0;
+    }
     newGame();
   }
 
