@@ -5,6 +5,7 @@ import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
 import 'difficulty.dart';
+import 'obstacle.dart';
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
@@ -17,13 +18,14 @@ class Controller with ChangeNotifier {
   static Direction facing = Direction.Up;
 
   Controller() {
-    currentPosition = randomNum.nextInt(Constants.gridNum);
+    currentPosition = randomNum.nextInt(Constants.gridNum - 1);
     newGame();
   }
 
   void getCurrentPosition() async {
     for (Move move in moves) {
-      if (!isOutOfBounds(currentPosition, move.direction)) {
+      if (!isOutOfBounds(currentPosition, move.direction) &&
+          !checkObstacleCollision(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
         player.play(moveSFXpath);
         postInstruction(move);
@@ -47,11 +49,12 @@ class Controller with ChangeNotifier {
     newGoal();
     moves = [];
     facing = Direction.Up;
-    currentPosition = randomNum.nextInt(99);
+    currentPosition = randomNum.nextInt(Constants.gridNum - 1);
+    createObstacles(difficulty.getNumOfObstaces());
+    notifyListeners();
   }
 
   void newGoal() {
-    //notifyListeners();
     goalPosition = randomNum.nextInt(Constants.gridNum - 1);
   }
 
@@ -87,6 +90,18 @@ class Controller with ChangeNotifier {
     notifyListeners();
   }
 
+  void createObstacles(int obstacleNum) {
+    Constants.obstacles = [];
+    if (difficulty.getNumOfObstaces() > 0) {
+      for (var i = 0; i < difficulty.getNumOfObstaces(); i++) {
+        Obstacle obstacle = new Obstacle();
+        obstacle.setRandomPosition();
+        Constants.obstacles.add(obstacle);
+        Constants.obstaclePositions[i] = Constants.obstacles[i].getPosition();
+      }
+    }
+  }
+
   bool isOutOfBounds(int currentPosition, Direction direction) {
     switch (direction) {
       case Direction.Left:
@@ -120,6 +135,45 @@ class Controller with ChangeNotifier {
         break;
     }
     return true;
+  }
+
+  bool checkObstacleCollision(int currentPosition, Direction direction) {
+    switch (direction) {
+      case Direction.Left:
+        {
+          if (Constants.checkObstacleExists(
+              currentPosition - 1, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Right:
+        {
+          if (Constants.checkObstacleExists(
+              currentPosition + 1, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Up:
+        {
+          int upPosition = currentPosition - sqrt(Constants.gridNum).toInt();
+          if (Constants.checkObstacleExists(upPosition, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Down:
+        {
+          int downPosition = currentPosition + sqrt(Constants.gridNum).toInt();
+          if (Constants.checkObstacleExists(
+              downPosition, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+    }
+    return false;
   }
 
   void postInstruction(Move move) {

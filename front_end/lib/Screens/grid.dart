@@ -68,10 +68,16 @@ class _GridState extends State<Grid> {
                             Constants.goal,
                             fit: BoxFit.contain,
                           ))
-                        : null,
+                        : Constants.checkObstacleExists(
+                                index, Constants.obstacles)
+                            ? (Image.asset(
+                                Constants.obstalceImage,
+                                fit: BoxFit.contain,
+                              ))
+                            : null,
                 decoration: BoxDecoration(
                     border: Border.all(
-                  color: Colors.black,
+                  color: Colors.grey.shade800,
                   width: 2,
                 )),
               );
