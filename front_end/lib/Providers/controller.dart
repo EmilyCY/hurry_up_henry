@@ -56,6 +56,7 @@ class Controller with ChangeNotifier {
 
   void newGoal() {
     goalPosition = randomNum.nextInt(Constants.gridNum - 1);
+    notifyListeners();
   }
 
   void makeMove(ActionType action) {
