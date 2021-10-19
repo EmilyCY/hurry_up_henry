@@ -37,7 +37,7 @@ class Controller with ChangeNotifier {
 
       notifyListeners();
       print(currentPosition);
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: Constants.secondsDelayed));
     }
     this.moves = [];
     winCondition();

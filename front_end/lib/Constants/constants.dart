@@ -84,6 +84,7 @@ abstract class Constants {
   static const buttonIconSize = 50;
   static const Color directionButtonColor = Colors.blue;
 
+  static const secondsDelayed = 3;
   static int gridNum = 16; //this does work, how about that.
 
   //should be in an obstacle manager or something
