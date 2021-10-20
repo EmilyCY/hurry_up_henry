@@ -4,6 +4,8 @@ import 'package:hurry_up_henry/Models/car_status.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:hurry_up_henry/Providers/controller.dart';
+import '../Providers/controller.dart';
+import 'dart:math';
 
 class Grid extends StatefulWidget {
   const Grid({Key? key}) : super(key: key);
@@ -31,7 +33,7 @@ class _GridState extends State<Grid> {
         ),
         child: GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 10, // put to constant
+            crossAxisCount: sqrt(Constants.gridNum).toInt(), // put to constant
             crossAxisSpacing: 0,
             mainAxisSpacing: 0,
             children: List.generate(Constants.gridNum, (index) {
@@ -66,10 +68,16 @@ class _GridState extends State<Grid> {
                             Constants.goal,
                             fit: BoxFit.contain,
                           ))
-                        : null,
+                        : Constants.checkObstacleExists(
+                                index, Constants.obstacles)
+                            ? (Image.asset(
+                                Constants.obstalceImage,
+                                fit: BoxFit.contain,
+                              ))
+                            : null,
                 decoration: BoxDecoration(
                     border: Border.all(
-                  color: Colors.black,
+                  color: Colors.grey.shade800,
                   width: 2,
                 )),
               );

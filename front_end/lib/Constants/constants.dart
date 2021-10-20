@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:hurry_up_henry/Providers/obstacle.dart';
 
 // seperate enum for action types and directions to avoid confusion
 enum ActionType { Delete, Run, Restart, MoveUp, MoveDown, MoveLeft, MoveRight }
@@ -46,11 +47,13 @@ extension ActionExtension on ActionType {
   }
 }
 
+enum Levels { Easy, Medium, Hard }
+
 //sound effects
 AudioPlayer player = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-final winSFXpath = "assets/win.wav";
-final loseSFXpath = "assets/lose.wav";
-final moveSFXpath = "assets/move.wav";
+final winSFXpath = "assets/sounds/win.wav";
+final loseSFXpath = "assets/sounds/lose.wav";
+final moveSFXpath = "assets/sounds/move.wav";
 
 // setting as abstract class to prevent from instantiation
 abstract class Constants {
@@ -62,6 +65,7 @@ abstract class Constants {
   static const redCar = 'assets/images/redCar.png';
   static const henry = 'assets/images/henry.png';
   static const goal = 'assets/images/house.png';
+  static const obstalceImage = 'assets/images/obstacles.png';
   static const gridBackground = 'assets/images/backGround.jpg';
   static const consoleFrame = 'assets/images/monkey.png';
   static const upButton = 'assets/images/arrowUp.png';
@@ -73,9 +77,25 @@ abstract class Constants {
   static const deleteButton = 'assets/images/delete.png';
 
   // screen constants
-  static const gridNum = 100;
   static const double consoleIconSize = 50;
   static const gridSize = 50;
   static const Color consoleColor = Color(0xff7cb342);
   static const controlGridNumber = 12;
+  static const buttonIconSize = 50;
+  static const Color directionButtonColor = Colors.blue;
+
+  static const secondsDelayed = 3; //seconds between front end player movement
+  static int gridNum = 16; //this does work, how about that.
+
+  //should be in an obstacle manager or something
+  static List<Obstacle> obstacles = [];
+  static List<int> obstaclePositions = [];
+  static bool checkObstacleExists(int index, obstacles) {
+    for (Obstacle obstacle in obstacles) {
+      if (obstacle.getPosition() == index) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

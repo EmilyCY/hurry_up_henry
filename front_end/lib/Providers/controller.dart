@@ -4,23 +4,28 @@ import 'package:flutter/foundation.dart';
 import 'package:hurry_up_henry/Constants/constants.dart';
 import 'package:hurry_up_henry/Services/api_manager.dart';
 import 'move.dart';
+import 'difficulty.dart';
+import 'obstacle.dart';
 
 class Controller with ChangeNotifier {
   int currentPosition = 0;
+  int winCounter = 0;
   int goalPosition = 0;
   static Random randomNum = new Random();
   int startPosition = 0;
   List<Move> moves = [];
+  Difficulty difficulty = new Difficulty();
   static Direction facing = Direction.Up;
 
   Controller() {
-    //currentPosition = randomNum.nextInt(99);
+    currentPosition = randomNum.nextInt(Constants.gridNum - 1);
     newGame();
   }
 
   void getCurrentPosition() async {
     for (Move move in moves) {
-      if (!isOutOfBounds(currentPosition, move.direction)) {
+      if (!isOutOfBounds(currentPosition, move.direction) &&
+          !checkObstacleCollision(currentPosition, move.direction)) {
         currentPosition += move.positionChange;
         player.play(moveSFXpath);
         postInstruction(move);
@@ -32,21 +37,25 @@ class Controller with ChangeNotifier {
 
       notifyListeners();
       print(currentPosition);
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: Constants.secondsDelayed));
     }
     this.moves = [];
     winCondition();
   }
 
   void newGame() {
+    Constants.gridNum = difficulty.getGridSize();
+    print(difficulty.getGridSize().toString());
     newGoal();
     moves = [];
     facing = Direction.Up;
-    currentPosition = randomNum.nextInt(99);
+    currentPosition = randomNum.nextInt(Constants.gridNum - 1);
+    createObstacles(difficulty.getNumOfObstaces());
+    notifyListeners();
   }
 
   void newGoal() {
-    goalPosition = randomNum.nextInt(99);
+    goalPosition = randomNum.nextInt(Constants.gridNum - 1);
     notifyListeners();
   }
 
@@ -67,6 +76,11 @@ class Controller with ChangeNotifier {
 
   void win() {
     player.play(winSFXpath);
+    winCounter++;
+    if (winCounter == 1) {
+      difficulty.levelUp();
+      winCounter = 0;
+    }
     newGame();
   }
 
@@ -75,6 +89,18 @@ class Controller with ChangeNotifier {
     print("lose");
     moves = [];
     notifyListeners();
+  }
+
+  void createObstacles(int obstacleNum) {
+    Constants.obstacles = [];
+    if (difficulty.getNumOfObstaces() > 0) {
+      for (var i = 0; i < difficulty.getNumOfObstaces(); i++) {
+        Obstacle obstacle = new Obstacle();
+        obstacle.setRandomPosition();
+        Constants.obstacles.add(obstacle);
+        Constants.obstaclePositions[i] = Constants.obstacles[i].getPosition();
+      }
+    }
   }
 
   bool isOutOfBounds(int currentPosition, Direction direction) {
@@ -110,6 +136,45 @@ class Controller with ChangeNotifier {
         break;
     }
     return true;
+  }
+
+  bool checkObstacleCollision(int currentPosition, Direction direction) {
+    switch (direction) {
+      case Direction.Left:
+        {
+          if (Constants.checkObstacleExists(
+              currentPosition - 1, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Right:
+        {
+          if (Constants.checkObstacleExists(
+              currentPosition + 1, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Up:
+        {
+          int upPosition = currentPosition - sqrt(Constants.gridNum).toInt();
+          if (Constants.checkObstacleExists(upPosition, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+      case Direction.Down:
+        {
+          int downPosition = currentPosition + sqrt(Constants.gridNum).toInt();
+          if (Constants.checkObstacleExists(
+              downPosition, Constants.obstacles)) {
+            return true;
+          }
+        }
+        break;
+    }
+    return false;
   }
 
   void postInstruction(Move move) {
