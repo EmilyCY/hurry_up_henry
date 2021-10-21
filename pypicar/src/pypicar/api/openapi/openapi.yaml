@@ -141,17 +141,15 @@ components:
       type: object
     Rotate:
       example:
-        angle: 90
+        clockwise: true
       properties:
-        angle:
-          description: The rotation angle, must be multiple of 10 (10, 360 range)
-          example: 90
-          maximum: 360
-          minimum: 10
-          multipleOf: 10
-          type: integer
+        clockwise:
+          default: true
+          description: Rotate clockwise (true) or anti-clockwise (false)
+          example: true
+          type: boolean
       required:
-      - angle
+      - clockwise
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -14,20 +14,20 @@ class Rotate(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, angle: int=None):
+    def __init__(self, clockwise: bool=True):
         """Rotate - a model defined in OpenAPI
 
-        :param angle: The angle of this Rotate.
+        :param clockwise: The clockwise of this Rotate.
         """
         self.openapi_types = {
-            'angle': int
+            'clockwise': bool
         }
 
         self.attribute_map = {
-            'angle': 'angle'
+            'clockwise': 'clockwise'
         }
 
-        self._angle = angle
+        self._clockwise = clockwise
 
     @classmethod
     def from_dict(cls, dikt: dict) -> 'Rotate':
@@ -39,30 +39,26 @@ class Rotate(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def angle(self):
-        """Gets the angle of this Rotate.
+    def clockwise(self):
+        """Gets the clockwise of this Rotate.
 
-        The rotation angle, must be multiple of 10 (10, 360 range)
+        Rotate clockwise (true) or anti-clockwise (false)
 
-        :return: The angle of this Rotate.
-        :rtype: int
+        :return: The clockwise of this Rotate.
+        :rtype: bool
         """
-        return self._angle
+        return self._clockwise
 
-    @angle.setter
-    def angle(self, angle):
-        """Sets the angle of this Rotate.
+    @clockwise.setter
+    def clockwise(self, clockwise):
+        """Sets the clockwise of this Rotate.
 
-        The rotation angle, must be multiple of 10 (10, 360 range)
+        Rotate clockwise (true) or anti-clockwise (false)
 
-        :param angle: The angle of this Rotate.
-        :type angle: int
+        :param clockwise: The clockwise of this Rotate.
+        :type clockwise: bool
         """
-        if angle is None:
-            raise ValueError("Invalid value for `angle`, must not be `None`")
-        if angle is not None and angle > 360:
-            raise ValueError("Invalid value for `angle`, must be a value less than or equal to `360`")
-        if angle is not None and angle < 10:
-            raise ValueError("Invalid value for `angle`, must be a value greater than or equal to `10`")
+        if clockwise is None:
+            raise ValueError("Invalid value for `clockwise`, must not be `None`")
 
-        self._angle = angle
+        self._clockwise = clockwise

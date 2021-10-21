@@ -4,13 +4,8 @@ import pytest
 import json
 from aiohttp import web
 
-from api.models.car_status import CarStatus
-from api.models.rotate import Rotate
-
-
-
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning) 
+from pypicar.api.models.car_status import CarStatus
+from pypicar.api.models.rotate import Rotate
 
 
 async def test_drive_car(client):
@@ -19,7 +14,7 @@ async def test_drive_car(client):
     Drives the car forward
     """
     headers = { 
-        'X-API-KEY': 'hurruphenry'
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='POST',
@@ -35,7 +30,8 @@ async def test_get_car_status(client):
     Get the status of the car.
     """
     headers = { 
-        'X-API-KEY': 'hurruphenry'
+        'Accept': 'application/json',
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='GET',
@@ -51,7 +47,7 @@ async def test_reverse_car(client):
     Drives the car backward
     """
     headers = { 
-        'X-API-KEY': 'hurruphenry'
+        'X-API-KEY': 'special-key',
     }
     response = await client.request(
         method='POST',
@@ -67,13 +63,13 @@ async def test_rotate_car(client):
     Rotates the car at an angle
     """
     body = {
-      "angle" : 90
+      "clockwise" : True
     }
 
     headers = { 
-        'X-API-KEY': 'hurruphenry'
+        'Content-Type': 'application/json',
+        'X-API-KEY': 'special-key',
     }
-
     response = await client.request(
         method='POST',
         path='/car/rotate',
